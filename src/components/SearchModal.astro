@@ -2,83 +2,216 @@
 import { Search, X, ArrowRight, CornerDownLeft } from '@lucide/astro';
 
 const searchableItems = [
+  // Kebijakan Privasi
   {
-    id: 'tentang',
+    url: '/#tentang',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 1',
-    title: 'Tentang kebijakan ini & Peran Pengendali vs Prosesor',
-    keywords: 'amerta digital creativindo lms sekolah pengendali prosesor perjanjian layanan'
+    title: 'Tentang Kebijakan ini & Peran Pengendali vs Prosesor',
+    keywords: 'amerta digital creativindo lms sekolah pengendali prosesor perjanjian layanan privasi'
   },
   {
-    id: 'data-diproses',
+    url: '/#data-diproses',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 2',
     title: 'Data yang Dapat Diproses (Tabel Kategori Data)',
     keywords: 'identitas akun nama email nis nip aktivitas pembelajaran tugas ujian nilai evaluasi capaian pembelajaran cp profil avatar foto ip peramban cookie'
   },
   {
-    id: 'sumber-data',
+    url: '/#sumber-data',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 3',
     title: 'Sumber Data (Sekolah, Pengguna, Sistem Otomatis)',
     keywords: 'sumber data sekolah administrator pendaftaran ujian form dukungan teknis log sistem'
   },
   {
-    id: 'tujuan-dasar',
+    url: '/#tujuan-dasar',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 4',
     title: 'Tujuan dan Dasar Pemrosesan Hukum',
     keywords: 'tujuan dasar pemrosesan kontrak perjanjian kewajiban hukum kepentingan sah persetujuan consent 6 cp analitik pembelajaran'
   },
   {
-    id: 'akses-pengungkapan',
+    url: '/#akses-pengungkapan',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 5',
     title: 'Akses dan Pengungkapan Data (Pihak Ketiga & Vendor)',
     keywords: 'guru admin sekolah personel vendor penyedia server hostinger cloudflare database email penegak hukum pengadilan'
   },
   {
-    id: 'lokasi-retensi',
+    url: '/#lokasi-retensi',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 6',
     title: 'Lokasi Penyimpanan dan Masa Retensi Data',
     keywords: 'lokasi server penyimpanan cloudflare hostinger kvm 4 retensi masa simpan akun tugas nilai arsip cadangan backup pemusnahan'
   },
   {
-    id: 'cookie',
+    url: '/#cookie',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 7',
     title: 'Cookie dan Teknologi Penyimpanan Sesi Serupa',
     keywords: 'cookie cookies sesi session login autentikasi analitik pelacak tracker'
   },
   {
-    id: 'pengguna-anak',
+    url: '/#pengguna-anak',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 8',
     title: 'Pengguna Anak di Bawah 18 Tahun & Persetujuan Orang Tua',
     keywords: 'anak di bawah 18 tahun orang tua wali persetujuan consent perlindungan anak siswa minor'
   },
   {
-    id: 'keamanan-insiden',
+    url: '/#keamanan-insiden',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 9',
     title: 'Keamanan Data & Prosedur Notifikasi Insiden 3 × 24 Jam',
     keywords: 'keamanan teknis enkripsi kontrol akses insiden kebocoran kegagalan perlindungan data pemberitahuan 3x24 jam notifikasi uu pdp'
   },
   {
-    id: 'hak-pengguna',
+    url: '/#hak-pengguna',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 10',
     title: 'Hak Pengguna (Akses, Koreksi, Portabilitas, Penghapusan)',
     keywords: 'hak pengguna subjek data hak akses informasi salinan perbaikan koreksi pemindahan portabilitas penghentian penghapusan erasure keberatan otomatis'
   },
   {
-    id: 'kontak',
+    url: '/#kontak',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 11',
     title: 'Kontak Resmi dan Saluran Pengaduan Privasi',
     keywords: 'kontak pengaduan pt amerta digital creativindo email privasi alamat korespondensi formulir support'
   },
   {
-    id: 'perubahan',
+    url: '/#perubahan',
+    doc: 'Privasi',
+    docColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
     section: 'Pasal 12',
     title: 'Perubahan dan Pembaruan Kebijakan Privasi',
     keywords: 'perubahan update revisi tanggal pembaruan notifikasi versi terbaru'
   },
+
+  // Ketentuan Layanan (ToS)
   {
-    id: 'catatan-pemilik',
-    section: 'Pemeriksaan',
-    title: 'Catatan Pemilik LMS — Daftar Pemeriksaan Pra-Publikasi',
-    keywords: 'catatan pemilik verifikasi draf rujukan hostinger kvm cloudflare proctoring ujian'
+    url: '/term#penerimaan',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 1',
+    title: 'Penerimaan Syarat Ketentuan & Ruang Lingkup Layanan',
+    keywords: 'penerimaan syarat ketentuan ruang lingkup eula perjanjian pengguna kontrak mengikat amertarva lms'
+  },
+  {
+    url: '/term#definisi',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 2',
+    title: 'Definisi Operasional (Pengguna, Sekolah, Konten, 6 CP)',
+    keywords: 'definisi istilah akun pengguna sekolah mitra guru pendidik siswa peserta didik administrator konten capaian pembelajaran'
+  },
+  {
+    url: '/term#pengguna-anak',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 3',
+    title: 'Kelayakan Pengguna & Perlindungan Pengguna Anak',
+    keywords: 'kelayakan usia pengguna anak minor 18 tahun orang tua wali sekolah in loco parentis undang-undang perlindungan anak'
+  },
+  {
+    url: '/term#akun-keamanan',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 4',
+    title: 'Registrasi Akun, Kredensial & Kewajiban Keamanan',
+    keywords: 'akun kredensial password kata sandi login sharing berbagi akun keamanan otentikasi kompromi tanggung jawab'
+  },
+  {
+    url: '/term#lisensi',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 5',
+    title: 'Lisensi Perangkat Lunak & Hak Kekayaan Intelektual (HAKI)',
+    keywords: 'lisensi perangkat lunak software haki hak cipta source code merek dagang reverse engineering dekompilasi amerta'
+  },
+  {
+    url: '/term#konten-pengguna',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 6',
+    title: 'Materi Pembelajaran, Tugas Siswa & Hak Cipta Konten',
+    keywords: 'materi pembelajaran modul rpp video materi guru karya siswa tugas esai hak cipta lisensi terbatas'
+  },
+  {
+    url: '/term#larangan',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 7',
+    title: 'Pedoman Perilaku & Penggunaan yang Dilarang (AUP)',
+    keywords: 'larangan peretasan ddos malware injeksi scraping bot otomatisasi kecurangan pornografi perundungan cyberbullying ujaran kebencian'
+  },
+  {
+    url: '/term#ujian-cbt',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 8',
+    title: 'Integritas Pelaksanaan Ujian Daring (CBT) & Asesmen',
+    keywords: 'ujian cbt asesmen evaluasi kecurangan joki pembocoran soal integritas akademik nilai 6 cp capaian pembelajaran log ujian'
+  },
+  {
+    url: '/term#ketersediaan-sla',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 9',
+    title: 'Ketersediaan Sistem, SLA & Pemeliharaan Terjadwal',
+    keywords: 'ketersediaan uptime sla pemeliharaan maintenance backup force majeure gangguan jaringan bencana'
+  },
+  {
+    url: '/term#batasan-tanggung-jawab',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 10',
+    title: 'Batasan Tanggung Jawab & Penafian Jaminan (Disclaimer)',
+    keywords: 'batasan tanggung jawab disclaimer penafian as is kerugian tidak langsung koneksi isp kesalahan input nilai ganti rugi'
+  },
+  {
+    url: '/term#penangguhan-terminasi',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 11',
+    title: 'Penangguhan, Pembatasan Akses & Pengakhiran Layanan',
+    keywords: 'penangguhan pembekuan suspend terminasi pemutusan akun pelanggaran lulus pindah sekolah penghapusan arsip'
+  },
+  {
+    url: '/term#kerjasama-b2b',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 12',
+    title: 'Kemitraan Institusional Sekolah & Perjanjian B2B',
+    keywords: 'kemitraan b2b sekolah yayasan dinas perjanjian kerja sama pks lisensi rombel integrasi sistem dapodik emis'
+  },
+  {
+    url: '/term#hukum-sengketa',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 13',
+    title: 'Hukum yang Berlaku & Forum Penyelesaian Sengketa',
+    keywords: 'hukum indonesia undang-undang ite sengketa musyawarah mufakat domisili pengadilan negeri arbitrase'
+  },
+  {
+    url: '/term#kontak-amandemen',
+    doc: 'Ketentuan',
+    docColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    section: 'Pasal 14',
+    title: 'Pembaruan Ketentuan Layanan & Kontak Resmi Legal',
+    keywords: 'pembaruan revisi amandemen tanggal efektif legal kontak email halo legal amertarva pt amerta digital creativindo'
   }
 ];
 ---
@@ -114,19 +247,24 @@ const searchableItems = [
       <div id="search-results-container" class="max-h-96 overflow-y-auto p-3 space-y-1">
         {searchableItems.map((item) => (
           <a 
-            href={`#${item.id}`}
+            href={item.url}
             class="search-result-item flex items-center justify-between rounded-xl p-3 text-left transition hover:bg-slate-800/80 group"
-            data-keywords={`${item.title.toLowerCase()} ${item.keywords}`}
+            data-keywords={`${item.title.toLowerCase()} ${item.keywords} ${item.doc.toLowerCase()}`}
           >
             <div>
-              <span class="inline-block rounded bg-indigo-500/10 px-2 py-0.5 text-[10px] font-semibold text-indigo-300 mb-1">
-                {item.section}
-              </span>
+              <div class="flex items-center gap-1.5 mb-1">
+                <span class={`inline-block rounded border px-1.5 py-0.2 text-[9px] font-semibold ${item.docColor}`}>
+                  {item.doc}
+                </span>
+                <span class="inline-block rounded bg-slate-800 px-1.5 py-0.2 text-[10px] font-medium text-slate-300">
+                  {item.section}
+                </span>
+              </div>
               <h4 class="text-xs sm:text-sm font-semibold text-slate-200 group-hover:text-white">
                 {item.title}
               </h4>
               <p class="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
-                Kata kunci: {item.keywords}
+                {item.keywords}
               </p>
             </div>
             <ArrowRight class="h-4 w-4 text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition shrink-0 ml-3" />

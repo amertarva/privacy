@@ -1,0 +1,158 @@
+---
+import {
+  Building2,
+  Calendar,
+  Globe,
+  Clock,
+  ShieldAlert,
+  Scale,
+  Share2,
+  Copy,
+  Check,
+  ArrowDownCircle,
+  FileCheck2,
+  Lock,
+  ArrowRight
+} from "@lucide/astro";
+---
+
+<section class="relative overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-slate-900/60 via-slate-950 to-slate-950 py-12 sm:py-16">
+  <div class="pointer-events-none absolute -top-32 left-1/2 -z-10 h-96 w-96 -translate-x-1/2 rounded-full bg-indigo-600/15 blur-3xl"></div>
+  <div class="pointer-events-none absolute top-12 -right-24 -z-10 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl"></div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl">
+      <div class="flex flex-wrap items-center gap-2">
+        <div class="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold text-indigo-300">
+          <Building2 class="h-3.5 w-3.5 text-indigo-400" />
+          <span>PT AMERTA DIGITAL CREATIVINDO</span>
+        </div>
+        <div class="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-300">
+          <Scale class="h-3.5 w-3.5 text-cyan-400" />
+          <span>TERMS OF SERVICE</span>
+        </div>
+      </div>
+
+      <h1 class="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-5xl">
+        Syarat & Ketentuan Layanan <span class="bg-gradient-to-r from-indigo-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">Amertarva LMS</span>
+      </h1>
+
+      <p class="mt-4 text-base text-slate-300 sm:text-lg leading-relaxed">
+        Ketentuan hukum, hak cipta materi, batasan tanggung jawab, serta pedoman integritas penggunaan Learning Management System (LMS) Amertarva untuk sekolah mitra, guru, siswa, dan administrator, berlandaskan hukum transaksi elektronik dan perlindungan hak cipta Republik Indonesia.
+      </p>
+
+      <div class="mt-6 rounded-2xl border border-amber-500/30 bg-amber-950/20 p-4 sm:p-5 backdrop-blur-sm">
+        <div class="flex items-start gap-3.5">
+          <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-400">
+            <ShieldAlert class="h-5 w-5" />
+          </div>
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Status Dokumen: Draf Resmi Peninjauan</span>
+              <span class="rounded bg-amber-500/20 px-2 py-0.5 text-[11px] font-medium text-amber-200">Perjanjian Pengguna Akhir (EULA)</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Dokumen ini mengikat setiap individu atau institusi yang mengakses dan menggunakan layanan Amertarva LMS. Seluruh ketentuan pemrosesan data pribadi tetap merujuk pada <a href="/" class="text-indigo-400 underline underline-offset-2 hover:text-indigo-300 font-medium">Kebijakan Privasi Amertarva LMS</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4 text-xs">
+        <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4 backdrop-blur-sm">
+          <div class="flex items-center gap-2 text-slate-400">
+            <Calendar class="h-4 w-4 text-indigo-400" />
+            <span class="font-medium">Berlaku Mulai</span>
+          </div>
+          <p class="mt-1.5 font-semibold text-slate-200 font-mono text-[11px] sm:text-xs">
+            10 Oktober 2026
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4 backdrop-blur-sm">
+          <div class="flex items-center gap-2 text-slate-400">
+            <Clock class="h-4 w-4 text-cyan-400" />
+            <span class="font-medium">Pembaruan Terakhir</span>
+          </div>
+          <p class="mt-1.5 font-semibold text-slate-200 font-mono text-[11px] sm:text-xs">
+            10 Oktober 2026
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4 backdrop-blur-sm">
+          <div class="flex items-center gap-2 text-slate-400">
+            <Globe class="h-4 w-4 text-emerald-400" />
+            <span class="font-medium">Domain Layanan</span>
+          </div>
+          <p class="mt-1.5 font-semibold text-slate-200 truncate font-mono text-[11px] sm:text-xs" title="lms.amertarva.com">
+            lms.amertarva.com
+          </p>
+        </div>
+
+        <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-3 sm:p-4 backdrop-blur-sm">
+          <div class="flex items-center gap-2 text-slate-400">
+            <Scale class="h-4 w-4 text-amber-400" />
+            <span class="font-medium">Yurisdiksi Hukum</span>
+          </div>
+          <p class="mt-1.5 font-semibold text-slate-200 text-[11px] sm:text-xs">
+            Republik Indonesia
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a 
+          href="#penerimaan" 
+          class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/30 transition hover:bg-indigo-500 hover:scale-[1.02] active:scale-[0.98]"
+        >
+          <ArrowDownCircle class="h-4 w-4" />
+          <span>Mulai Membaca Ketentuan</span>
+        </a>
+
+        <a 
+          href="/" 
+          class="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-900/80 px-4 py-2.5 text-xs font-medium text-slate-200 transition hover:border-slate-600 hover:bg-slate-800 hover:text-white"
+        >
+          <FileCheck2 class="h-4 w-4 text-indigo-400" />
+          <span>Lihat Kebijakan Privasi</span>
+          <ArrowRight class="h-3.5 w-3.5 text-slate-400" />
+        </a>
+
+        <button 
+          id="copy-terms-link-btn" 
+          type="button" 
+          class="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/80 px-3.5 py-2.5 text-xs font-medium text-slate-300 transition hover:border-slate-700 hover:bg-slate-900 hover:text-white"
+          title="Salin tautan ke halaman ini"
+        >
+          <Copy class="h-3.5 w-3.5 text-slate-400" id="copy-terms-icon" />
+          <Check class="hidden h-3.5 w-3.5 text-emerald-400" id="check-terms-icon" />
+          <span id="copy-terms-text">Salin Tautan</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const copyBtn = document.getElementById('copy-terms-link-btn');
+  const copyIcon = document.getElementById('copy-terms-icon');
+  const checkIcon = document.getElementById('check-terms-icon');
+  const copyText = document.getElementById('copy-terms-text');
+
+  copyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      copyIcon?.classList.add('hidden');
+      checkIcon?.classList.remove('hidden');
+      if (copyText) copyText.textContent = 'Tersalin!';
+
+      setTimeout(() => {
+        copyIcon?.classList.remove('hidden');
+        checkIcon?.classList.add('hidden');
+        if (copyText) copyText.textContent = 'Salin Tautan';
+      }, 2500);
+    } catch {
+      alert('Gagal menyalin tautan');
+    }
+  });
+</script>

@@ -1,0 +1,723 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import HeroHeaderTerms from '../components/HeroHeaderTerms.astro';
+import KeyHighlightsTerms from '../components/KeyHighlightsTerms.astro';
+import TableOfContentsTerms from '../components/TableOfContentsTerms.astro';
+import SearchModal from '../components/SearchModal.astro';
+import Footer from '../components/Footer.astro';
+
+import { 
+  FileCheck2, 
+  BookOpen, 
+  Baby, 
+  UserCheck, 
+  KeyRound, 
+  FileText, 
+  Ban, 
+  GraduationCap, 
+  Server, 
+  AlertTriangle, 
+  UserX, 
+  Building2, 
+  Scale, 
+  Mail,
+  ShieldCheck,
+  CheckCircle2,
+  Copy,
+  Check,
+  ExternalLink,
+  Lock,
+  Users,
+  School,
+  AlertCircle,
+  HelpCircle,
+  Clock,
+  Sparkles,
+  Layers,
+  ShieldAlert,
+  ArrowRight
+} from '@lucide/astro';
+
+const definitions = [
+  {
+    term: 'Amertarva / Kami',
+    badge: 'Penyedia Layanan',
+    badgeColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
+    description: 'PT Amerta Digital Creativindo, perseroan terbatas yang sah menurut hukum Republik Indonesia, selaku pemilik hak cipta, pengembang, dan operator Learning Management System (LMS) Amertarva.'
+  },
+  {
+    term: 'LMS Amertarva / Platform',
+    badge: 'Perangkat Lunak',
+    badgeColor: 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300',
+    description: 'Sistem aplikasi manajemen pembelajaran digital berbasis web dan mobile yang mencakup pengelolaan kelas, materi kurikulum, pengumpulan tugas, ujian daring (CBT), serta analitik Capaian Pembelajaran (CP).'
+  },
+  {
+    term: 'Sekolah Mitra / Institusi',
+    badge: 'Entitas Berlangganan',
+    badgeColor: 'border-blue-500/30 bg-blue-500/10 text-blue-300',
+    description: 'Sekolah, madrasah, pondok pesantren, yayasan, atau institusi pendidikan formal dan non-formal yang mengadakan kerja sama resmi atau berlangganan lisensi pemanfaatan LMS Amertarva.'
+  },
+  {
+    term: 'Peserta Didik (Siswa)',
+    badge: 'Pengguna Akhir',
+    badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
+    description: 'Pengguna akhir yang terdaftar dalam rombongan belajar (rombel) sekolah mitra untuk mengakses materi ajar, mengerjakan tugas, dan mengikuti evaluasi pembelajaran di LMS.'
+  },
+  {
+    term: 'Pendidik (Guru)',
+    badge: 'Pengguna Akademik',
+    badgeColor: 'border-purple-500/30 bg-purple-500/10 text-purple-300',
+    description: 'Pengguna yang diberikan hak otorisasi oleh sekolah untuk menyusun modul, mengunggah materi, mengelola kelas, merancang ujian CBT, dan memberikan penilaian akademik.'
+  },
+  {
+    term: 'Administrator Sekolah',
+    badge: 'Pengelola Institusi',
+    badgeColor: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
+    description: 'Perwakilan resmi yang ditunjuk oleh sekolah mitra untuk mengelola akun pengguna, konfigurasi kurikulum tingkat sekolah, serta sinkronisasi data rombongan belajar.'
+  },
+  {
+    term: 'Konten Pengguna',
+    badge: 'Materi & Berkas',
+    badgeColor: 'border-rose-500/30 bg-rose-500/10 text-rose-300',
+    description: 'Segala bentuk materi modul, dokumen tugas, video bahan ajar, berkas unggahan, butir soal, lembar jawaban evaluasi, foto avatar, atau pesan teks yang dimasukkan ke dalam sistem oleh pengguna.'
+  },
+  {
+    term: 'Capaian Pembelajaran (CP)',
+    badge: 'Komputasi Akademik',
+    badgeColor: 'border-teal-500/30 bg-teal-500/10 text-teal-300',
+    description: 'Standar kompetensi pembelajaran yang diukur melalui algoritma asesmen dan pengelompokan tingkat pemahaman siswa di dalam LMS Amertarva.'
+  }
+];
+
+const prohibitedBehaviors = [
+  {
+    category: 'Kejahatan Siber & Integritas Teknis',
+    badge: 'Keamanan Siber',
+    badgeColor: 'border-red-500/30 bg-red-500/10 text-red-300',
+    items: [
+      'Menyerang infrastruktur server dengan Distributed Denial of Service (DDoS) atau brute-force attack.',
+      'Mengunggah berkas terinfeksi malware, virus, trojan, ransomware, atau skrip berbahaya lainnya.',
+      'Melakukan injeksi kode SQL (SQLi), Cross-Site Scripting (XSS), atau eksploitasi kerentanan perangkat lunak.',
+      'Melakukan web scraping, crawling otomatis, atau penggunaan bot tanpa izin tertulis dari Amertarva.'
+    ]
+  },
+  {
+    category: 'Kecurangan Akademik & Ujian CBT',
+    badge: 'Integritas Akademik',
+    badgeColor: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
+    items: [
+      'Menyebarluaskan, memperjualbelikan, atau membocorkan butir soal dan kunci jawaban ujian CBT.',
+      'Melakukan perjokian identitas (mengizinkan pihak lain mengerjakan ujian atau tugas atas nama akun sendiri).',
+      'Menggunakan skrip, ekstensi peramban peretas, atau automasi kecerdasan buatan untuk manipulasi pengerjaan tes.',
+      'Memanipulasi atau memalsukan rekapitulasi nilai dan waktu pengerjaan tugas akademik.'
+    ]
+  },
+  {
+    category: 'Konten Terlarang & Norma Sosial',
+    badge: 'Kelayakan Konten',
+    badgeColor: 'border-purple-500/30 bg-purple-500/10 text-purple-300',
+    items: [
+      'Menyebarkan konten pornografi, ketelanjangan, atau materi tidak senonoh di ruang kelas dan profil.',
+      'Melakukan perundungan siber (cyberbullying), ancaman kekerasan, fitnah, atau pelecehan kepada siswa maupun guru.',
+      'Mengunggah materi bermuatan ujaran kebencian terhadap suku, agama, ras, atau antargolongan (SARA).',
+      'Mempromosikan judi daring (judol), zat terlarang, rokok, atau aktivitas yang melanggar hukum RI.'
+    ]
+  },
+  {
+    category: 'Pelanggaran Privasi & Hak Cipta Pihak Ketiga',
+    badge: 'Hukum & HAKI',
+    badgeColor: 'border-blue-500/30 bg-blue-500/10 text-blue-300',
+    items: [
+      'Menyebarkan data pribadi orang lain (nomor telepon, alamat rumah, NIK) tanpa persetujuan yang sah (doxxing).',
+      'Mengunggah e-book bajakan, video berhak cipta tanpa lisensi, atau perangkat lunak terlarang.',
+      'Memindahtangankan, menyewakan, atau menjual kredensial akun LMS Amertarva kepada pihak ketiga yang tidak berhak.'
+    ]
+  }
+];
+---
+
+<Layout
+  title="Syarat dan Ketentuan Layanan Amertarva LMS | PT Amerta Digital Creativindo"
+  description="Syarat dan Ketentuan Penggunaan (Terms of Service) resmi Amertarva LMS untuk sekolah mitra, guru, siswa, dan administrator, sesuai hukum Republik Indonesia."
+>
+  <Navbar />
+
+  <HeroHeaderTerms />
+
+  <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12">
+      <aside class="hidden lg:col-span-4 lg:block xl:col-span-3">
+        <TableOfContentsTerms />
+      </aside>
+
+      <main class="lg:col-span-8 xl:col-span-9 space-y-12">
+        <KeyHighlightsTerms />
+
+        <div class="hidden print-only border-b-2 border-slate-900 pb-4 mb-6">
+          <h1 class="text-2xl font-bold">PT AMERTA DIGITAL CREATIVINDO</h1>
+          <h2 class="text-xl font-semibold">Syarat & Ketentuan Layanan Amertarva LMS</h2>
+          <p class="text-xs text-slate-600 mt-1">Perjanjian Pengguna Akhir dan Ketentuan Hukum Operasional Platform</p>
+        </div>
+
+        <!-- 1. Penerimaan Ketentuan -->
+        <article id="penerimaan" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              01
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 1</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Penerimaan Ketentuan & Ruang Lingkup Layanan</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Selamat datang di <strong>Amertarva Learning Management System</strong> (“LMS Amertarva” atau “Platform”), perangkat lunak manajemen pembelajaran terpadu yang dimiliki dan dioperasikan secara sah oleh <strong>PT Amerta Digital Creativindo</strong> (“Amertarva”, “kami”).
+            </p>
+            <p>
+              Syarat dan Ketentuan Layanan ini (“Ketentuan”) merupakan perjanjian hukum yang sah dan mengikat antara Anda (baik sebagai siswa, tenaga pendidik/guru, staf, administrator sekolah, maupun institusi pendidikan) dengan PT Amerta Digital Creativindo. Dengan melakukan registrasi akun, masuk (<span class="italic">login</span>), mengakses domain maupun subdomain LMS Amertarva, atau menggunakan fitur apa pun di dalamnya, Anda menyatakan telah membaca, memahami, menyetujui, dan terikat oleh seluruh isi Ketentuan ini.
+            </p>
+
+            <div class="rounded-xl border border-indigo-500/20 bg-indigo-950/20 p-4">
+              <div class="flex items-start gap-3">
+                <ShieldCheck class="h-5 w-5 text-indigo-400 shrink-0 mt-0.5" />
+                <div class="space-y-1">
+                  <h4 class="text-xs font-bold text-indigo-200">Keterkaitan dengan Kebijakan Privasi</h4>
+                  <p class="text-xs text-slate-300">
+                    Pemrosesan data pribadi, rekam jejak akademik, dan log keamanan diatur secara terpisah namun menjadi bagian tidak terpisahkan dalam <a href="/" class="text-cyan-400 font-semibold underline underline-offset-2 hover:text-cyan-300">Kebijakan Privasi Amertarva LMS</a> sesuai Undang-Undang No. 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p>
+              Jika Anda bertindak atas nama sekolah, yayasan, atau madrasah, Anda menyatakan dan menjamin bahwa Anda memiliki kewenangan hukum yang cukup untuk mengikat institusi tersebut pada Ketentuan ini. Apabila Anda tidak menyetujui bagian mana pun dari Ketentuan ini, Anda tidak diperkenankan untuk mengakses atau menggunakan layanan LMS Amertarva.
+            </p>
+          </div>
+        </article>
+
+        <!-- 2. Definisi Istilah Operasional -->
+        <article id="definisi" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              02
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 2</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Definisi Istilah Operasional</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Untuk menghindari ambiguitas penafsiran dalam perjanjian ini, istilah-istilah di bawah ini memiliki makna sebagaimana didefinisikan berikut:
+            </p>
+
+            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+              {definitions.map((item) => (
+                <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4 transition hover:border-slate-700">
+                  <div class="flex items-center justify-between gap-2">
+                    <h3 class="text-xs font-bold text-white">{item.term}</h3>
+                    <span class={`rounded-full border px-2 py-0.5 text-[9px] font-semibold ${item.badgeColor}`}>
+                      {item.badge}
+                    </span>
+                  </div>
+                  <p class="mt-2 text-xs text-slate-400 leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. Kelayakan & Perlindungan Pengguna Anak -->
+        <article id="pengguna-anak" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              03
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 3</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Kelayakan Pengguna & Perlindungan Pengguna Anak</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              LMS Amertarva diperuntukkan bagi komunitas akademik yang sah, meliputi siswa, guru, dan tenaga kependidikan dari sekolah mitra yang terdaftar.
+            </p>
+
+            <div class="rounded-2xl border border-emerald-500/30 bg-emerald-950/20 p-5">
+              <div class="flex items-start gap-3.5">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-400">
+                  <Baby class="h-5 w-5" />
+                </div>
+                <div class="space-y-2">
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-300">Ketentuan Khusus Siswa di Bawah 18 Tahun</h4>
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    Mengingat sebagian besar peserta didik berusia di bawah 18 (delapan belas) tahun yang tergolong sebagai anak menurut hukum Republik Indonesia, ketentuan berikut berlaku:
+                  </p>
+                  <ul class="list-disc pl-4 text-xs text-slate-300 space-y-1.5">
+                    <li>
+                      <strong>Persetujuan Perwakilan Sekolah (In Loco Parentis):</strong> Sekolah mitra bertindak mewakili wali murid dan bertanggung jawab memastikan bahwa pendaftaran akun siswa ke dalam LMS Amertarva telah dikoordinasikan dan disetujui oleh orang tua atau wali sah siswa.
+                    </li>
+                    <li>
+                      <strong>Tujuan Khusus Pendidikan:</strong> Penggunaan akun anak dibatasi ketat hanya untuk aktivitas akademis sekolah (materi, tugas, kuis, evaluasi CP, dan komunikasi kelas). LMS Amertarva tidak menyajikan iklan komersial maupun profiling perilaku non-edukatif pada akun anak.
+                    </li>
+                    <li>
+                      <strong>Akses Pemantauan Orang Tua:</strong> Orang tua/wali sah berhak memantau perkembangan belajar atau meminta klarifikasi data akun anak melalui koordinasi dengan pihak sekolah mitra atau saluran kontak resmi kami.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4. Akun Pengguna, Kredensial & Keamanan -->
+        <article id="akun-keamanan" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              04
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 4</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Akun Pengguna, Kredensial Akses & Keamanan</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Setiap pengguna diberikan akses akun yang terikat pada peran otorisasi spesifik (Role-Based Access Control) yang ditentukan oleh administrator sekolah:
+            </p>
+
+            <div class="grid gap-3 sm:grid-cols-3 text-xs">
+              <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                <div class="flex items-center gap-2 text-indigo-400 font-bold">
+                  <UserCheck class="h-4 w-4" />
+                  <span>Kerahasiaan Kata Sandi</span>
+                </div>
+                <p class="mt-2 text-slate-400 leading-relaxed">
+                  Pengguna wajib menjaga kerahasiaan kata sandi dan kredensial login. Segala aktivitas yang terjadi melalui akun Anda dianggap sebagai tindakan sah dari Anda.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                <div class="flex items-center gap-2 text-cyan-400 font-bold">
+                  <Ban class="h-4 w-4" />
+                  <span>Larangan Berbagi Akun</span>
+                </div>
+                <p class="mt-2 text-slate-400 leading-relaxed">
+                  Dilarang meminjamkan, menyewakan, atau memindahtangankan akun kepada siapa pun. Satu akun hanya diperuntukkan bagi satu individu pemilik sah.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                <div class="flex items-center gap-2 text-amber-400 font-bold">
+                  <AlertCircle class="h-4 w-4" />
+                  <span>Pemberitahuan Kompromi</span>
+                </div>
+                <p class="mt-2 text-slate-400 leading-relaxed">
+                  Jika mengetahui atau mencurigai kata sandi Anda bocor atau digunakan orang lain tanpa izin, Anda wajib segera mengubah kata sandi dan melapor ke administrator sekolah.
+                </p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-400">
+              Amertarva tidak bertanggung jawab atas kerugian materiil maupun moril yang timbul akibat kelalaian pengguna dalam menjaga kerahasiaan kredensial akun miliknya sendiri.
+            </p>
+          </div>
+        </article>
+
+        <!-- 5. Lisensi Platform & HAKI -->
+        <article id="lisensi" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              05
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 5</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Lisensi Platform & Hak Kekayaan Intelektual (HAKI)</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Seluruh hak kekayaan intelektual atas platform LMS Amertarva dilindungi secara tegas oleh peraturan perundang-undangan Republik Indonesia (UU No. 28 Tahun 2014 tentang Hak Cipta dan UU No. 20 Tahun 2016 tentang Merek dan Indikasi Geografis):
+            </p>
+
+            <div class="space-y-3">
+              <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                  <KeyRound class="h-4 w-4 text-cyan-400" />
+                  <span>5.1. Hak Eksklusif PT Amerta Digital Creativindo</span>
+                </h3>
+                <p class="mt-2 text-xs text-slate-400 leading-relaxed">
+                  PT Amerta Digital Creativindo merupakan pemilik tunggal dan eksklusif atas seluruh kode sumber (source code), desain antarmuka grafis (UI/UX), arsitektur basis data, algoritma pemetaan enam Capaian Pembelajaran (CP), dokumentasi teknis, merek dagang “Amertarva”, logo, slogan, dan hak cipta perangkat lunak LMS Amertarva.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                  <FileCheck2 class="h-4 w-4 text-indigo-400" />
+                  <span>5.2. Ruang Lingkup Lisensi Pengguna Akhir</span>
+                </h3>
+                <p class="mt-2 text-xs text-slate-400 leading-relaxed">
+                  Amertarva memberikan kepada pengguna lisensi terbatas, non-eksklusif, tidak dapat dialihkan (<span class="italic">non-transferable</span>), tidak dapat disublisensikan, dan dapat dicabut sewaktu-waktu, semata-mata untuk mengakses antarmuka pengguna LMS Amertarva untuk keperluan kegiatan belajar-mengajar selama masa langganan aktif sekolah mitra.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                  <Ban class="h-4 w-4 text-red-400" />
+                  <span>5.3. Pembatasan Ketat Rekayasa Balik</span>
+                </h3>
+                <p class="mt-2 text-xs text-slate-400 leading-relaxed">
+                  Pengguna dilarang keras merekayasa balik (<span class="italic">reverse engineering</span>), membongkar kode (<span class="italic">decompiling</span>), mengurai susunan (<span class="italic">disassembling</span>), menyalin arsitektur sistem, memodifikasi, atau membuat karya turunan dari perangkat lunak LMS Amertarva baik sebagian maupun seluruhnya.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6. Konten Pembelajaran & Hak Cipta Akademik -->
+        <article id="konten-pengguna" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              06
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 6</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Materi Pembelajaran, Tugas Siswa & Hak Cipta Konten</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Kami sangat menghormati karya orisinal para pendidik dan peserta didik:
+            </p>
+
+            <div class="grid gap-3 sm:grid-cols-2">
+              <div class="rounded-xl border border-indigo-500/30 bg-indigo-950/20 p-4">
+                <div class="flex items-center gap-2 text-xs font-bold text-indigo-300">
+                  <School class="h-4 w-4" />
+                  <span>Materi Pembelajaran Guru & Sekolah</span>
+                </div>
+                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                  Guru dan sekolah mempertahankan kepemilikan hak cipta penuh atas materi modul ajar, dokumen RPP/silabus, bank soal orisinal, rekaman video pembelajaran, dan media pendukung yang diunggah ke platform. Amertarva tidak mengklaim kepemilikan atas konten ajar tersebut.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-cyan-500/30 bg-cyan-950/20 p-4">
+                <div class="flex items-center gap-2 text-xs font-bold text-cyan-300">
+                  <GraduationCap class="h-4 w-4" />
+                  <span>Karya Tugas & Hasil Belajar Siswa</span>
+                </div>
+                <p class="mt-2 text-xs text-slate-300 leading-relaxed">
+                  Hak cipta atas karya tulis, laporan tugas proyek, karya seni, atau esai yang dibuat dan diunggah oleh siswa tetap menjadi milik siswa bersangkutan, dengan hak evaluasi dan pengarsipan akademik berada pada pihak sekolah.
+                </p>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-400 leading-relaxed">
+              <strong>Lisensi Terbatas Pengoperasian:</strong> Dengan mengunggah konten ke LMS Amertarva, pengguna memberikan kepada Amertarva lisensi bebas royalti yang bersifat non-eksklusif, semata-mata untuk menyimpan, memproses, menampilkan secara tertutup kepada kelas terdaftar, dan melakukan backup guna berjalannya fungsi sistem LMS sesuai kebutuhan sekolah.
+            </p>
+          </div>
+        </article>
+
+        <!-- 7. Pedoman Perilaku & Penggunaan yang Dilarang -->
+        <article id="larangan" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              07
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 7</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Pedoman Perilaku & Penggunaan yang Dilarang (Acceptable Use Policy)</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Demi menjaga lingkungan belajar yang aman, kondusif, dan tertib, pengguna dilarang keras melakukan tindakan-tindakan berikut:
+            </p>
+
+            <div class="space-y-3">
+              {prohibitedBehaviors.map((item) => (
+                <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                  <div class="flex items-center justify-between gap-2 pb-2 border-b border-slate-800/60">
+                    <h3 class="text-xs font-bold text-white">{item.category}</h3>
+                    <span class={`rounded-full border px-2 py-0.5 text-[9px] font-semibold ${item.badgeColor}`}>
+                      {item.badge}
+                    </span>
+                  </div>
+                  <ul class="mt-3 space-y-1.5 text-xs text-slate-400">
+                    {item.items.map((line) => (
+                      <li class="flex items-start gap-2">
+                        <span class="text-red-400 shrink-0 font-bold">✕</span>
+                        <span>{line}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div class="rounded-xl border border-red-500/30 bg-red-950/20 p-4 text-xs text-red-200">
+              <strong>Sanksi Pelanggaran:</strong> Pelanggaran terhadap pasal ini dapat mengakibatkan penonaktifan akun seketika, pembatalan nilai akademik oleh pihak sekolah, hingga pelaporan kepada aparat penegak hukum berdasarkan UU ITE No. 1 Tahun 2024.
+            </div>
+          </div>
+        </article>
+
+        <!-- 8. Integritas Ujian & Asesmen -->
+        <article id="ujian-cbt" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              08
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 8</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Pelaksanaan Ujian Daring (CBT) & Integritas Nilai</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Modul Computer Based Test (CBT) dan asesmen Capaian Pembelajaran (CP) merupakan instrumen evaluasi akademik formal. Pengguna wajib mematuhi protokol kejujuran akademik berikut:
+            </p>
+
+            <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4 space-y-3 text-xs">
+              <div class="flex items-start gap-2.5">
+                <CheckCircle2 class="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong class="text-white">Pencatatan Log Evaluasi (Exam Audit Trail):</strong>
+                  <p class="text-slate-400 mt-0.5">
+                    Sistem dapat mencatat telemetri sesi ujian secara transparan (durasi pengerjaan, pergantian tab peramban, waktu submit jawaban, dan alamat IP) guna keperluan audit integritas yang dilakukan oleh guru pengampu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-2.5">
+                <CheckCircle2 class="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div>
+                  <strong class="text-white">Wewenang Mutlak Penilaian:</strong>
+                  <p class="text-slate-400 mt-0.5">
+                    Hasil perolehan nilai, diskualifikasi jawaban curang, dan pemetaan enam Capaian Pembelajaran (CP) sepenuhnya merupakan wewenang profesional guru dan kebijakan akademik sekolah mitra. Amertarva bertindak semata-mata sebagai penyedia sistem kalkulasi komputasi.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 9. Ketersediaan Sistem, SLA & Pemeliharaan -->
+        <article id="ketersediaan-sla" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              09
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 9</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Ketersediaan Sistem, SLA & Pemeliharaan Terjadwal</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Amertarva berupaya secara maksimal (<span class="italic">commercially reasonable efforts</span>) untuk menjaga ketersediaan operasional platform selama 24 jam sehari, 7 hari seminggu. Namun demikian, pengguna memahami dan menyetujui ketentuan berikut:
+            </p>
+
+            <ul class="list-disc pl-5 space-y-2 text-xs text-slate-300">
+              <li>
+                <strong>Pemeliharaan Terjadwal (Scheduled Maintenance):</strong> Kami dapat melakukan pembaruan perangkat lunak, perbaikan bug, atau optimalisasi server secara berkala. Jadwal pemeliharaan akan diinformasikan sebelumnya melalui dasbor pengumuman LMS.
+              </li>
+              <li>
+                <strong>Pencadangan Data Berkala:</strong> Kami menerapkan mekanisme backup basis data secara teratur untuk meminimalkan risiko kehilangan data akibat kerusakan teknis sistem.
+              </li>
+              <li>
+                <strong>Keadaan Kahar (Force Majeure):</strong> Amertarva dibebaskan dari tanggung jawab atas keterlambatan atau kegagalan penyediaan layanan yang diakibatkan oleh keadaan di luar kendali wajar kami, termasuk namun tidak terbatas pada bencana alam, pemutusan jaringan serat optik internasional, gangguan server cloud global pihak ketiga, pemadaman listrik massal, atau instruksi pembatasan internet dari pemerintah.
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 10. Batasan Tanggung Jawab & Penafian -->
+        <article id="batasan-tanggung-jawab" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              10
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 10</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Batasan Tanggung Jawab & Penafian Jaminan (Disclaimer)</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <div class="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 space-y-2 text-xs text-amber-200">
+              <strong class="uppercase tracking-wider">Penafian Jaminan ("As Is" & "As Available"):</strong>
+              <p class="leading-relaxed">
+                Layanan LMS Amertarva disediakan atas dasar "sebagaimana adanya" (<span class="italic">as is</span>) dan "sebagaimana tersedia" (<span class="italic">as available</span>) tanpa jaminan apa pun, baik tersurat maupun tersirat, termasuk jaminan kelayakan komersial atau kesesuaian untuk tujuan tertentu di luar spesifikasi fungsional resmi.
+              </p>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Sejauh diizinkan oleh hukum yang berlaku di Indonesia, PT Amerta Digital Creativindo tidak bertanggung jawab atas:
+            </p>
+            <ol class="list-decimal pl-5 space-y-1.5 text-xs text-slate-400">
+              <li>Kegagalan koneksi internet lokal, pemadaman perangkat pengguna pribadi, atau gangguan jaringan penyedia layanan internet (ISP) saat pengerjaan tugas atau ujian.</li>
+              <li>Kerugian tidak langsung, insidental, atau konsekuensial yang timbul dari ketidakmampuan sementara dalam mengakses platform.</li>
+              <li>Akurasi atau legalitas materi modul ajar yang diunggah secara mandiri oleh pendidik atau sekolah mitra.</li>
+            </ol>
+
+            <p class="text-xs text-slate-300">
+              <strong>Batas Maksimum Ganti Rugi:</strong> Dalam hal terbukti secara hukum bahwa Amertarva bertanggung jawab atas suatu kerugian langsung, total kewajiban finansial kumulatif Amertarva kepada pengguna dibatasi maksimal sebesar jumlah biaya lisensi yang dibayarkan oleh sekolah mitra kepada Amertarva dalam kurun waktu 3 (tiga) bulan terakhir.
+            </p>
+          </div>
+        </article>
+
+        <!-- 11. Penangguhan & Terminasi -->
+        <article id="penangguhan-terminasi" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              11
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 11</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Penangguhan, Pembatasan Akses & Pengakhiran Layanan</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Hubungan layanan dapat ditangguhkan atau diakhiri berdasarkan ketentuan berikut:
+            </p>
+
+            <div class="grid gap-3 sm:grid-cols-2 text-xs">
+              <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                <h3 class="font-bold text-white flex items-center gap-1.5 text-rose-400">
+                  <UserX class="h-4 w-4" />
+                  <span>Penangguhan Akibat Pelanggaran</span>
+                </h3>
+                <p class="mt-2 text-slate-400 leading-relaxed">
+                  Amertarva atau administrator sekolah berhak membekukan sementara atau menghapus akun pengguna yang terbukti melanggar Pedoman Perilaku (Pasal 7) atau melakukan kecurangan ujian.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4">
+                <h3 class="font-bold text-white flex items-center gap-1.5 text-indigo-400">
+                  <School class="h-4 w-4" />
+                  <span>Siklus Kelulusan & Alih Sekolah</span>
+                </h3>
+                <p class="mt-2 text-slate-400 leading-relaxed">
+                  Bagi siswa yang telah lulus atau pindah sekolah, akun akan dinonaktifkan sesuai siklus akademik sekolah mitra. Rekapitulasi nilai dan arsip tugas dapat diekspor sebelum masa retensi berakhir.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 12. Kemitraan Sekolah (B2B) -->
+        <article id="kerjasama-b2b" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              12
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 12</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Kemitraan Institusional Sekolah & Perjanjian B2B</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Ketentuan Layanan daring ini berlaku secara umum bagi seluruh pengguna akhir. Bagi sekolah, madrasah, atau yayasan yang menandatangani <strong>Perjanjian Kerja Sama (PKS)</strong> atau kontrak pengadaan lisensi terpisah dengan PT Amerta Digital Creativindo:
+            </p>
+            <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-300">
+              <li>Ketentuan ini berlaku melengkapi klausul dalam PKS institusi.</li>
+              <li>Dalam hal terjadi perbedaan klausul komersial, jumlah kuota siswa, atau SLA teknis spesifik, ketentuan tertulis dalam PKS yang ditandatangani para pihak yang berwenang akan diutamakan (<span class="italic">prevailed</span>).</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 13. Hukum yang Berlaku & Sengketa -->
+        <article id="hukum-sengketa" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              13
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 13</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Hukum yang Berlaku & Penyelesaian Sengketa</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Syarat dan Ketentuan ini diatur, ditafsirkan, dan dilaksanakan sepenuhnya berdasarkan hukum Negara Kesatuan Republik Indonesia.
+            </p>
+
+            <div class="rounded-xl border border-slate-800 bg-slate-900/60 p-4 space-y-2 text-xs">
+              <div class="flex items-center gap-2 font-bold text-white">
+                <Scale class="h-4 w-4 text-cyan-400" />
+                <span>Mekanisme Musyawarah & Domisili Hukum</span>
+              </div>
+              <p class="text-slate-400 leading-relaxed">
+                Setiap perselisihan, sengketa, atau klaim yang timbul dari atau berkaitan dengan Ketentuan ini wajib diselesaikan terlebih dahulu secara musyawarah untuk mufakat dalam kurun waktu 30 (tiga puluh) hari kalender sejak pemberitahuan tertulis pertama disampaikan. Apabila musyawarah tidak menghasilkan mufakat, para pihak sepakat untuk menyelesaikan sengketa melalui Pengadilan Negeri yang berwenang di wilayah hukum domisili PT Amerta Digital Creativindo.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 14. Pembaruan & Kontak Resmi -->
+        <article id="kontak-amandemen" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-500/20 text-xs font-bold text-cyan-400">
+              14
+            </span>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-cyan-400">Pasal 14</span>
+              <h2 class="text-lg sm:text-xl font-bold text-white">Pembaruan Ketentuan Layanan & Kontak Resmi Legal</h2>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4 text-sm text-slate-300 leading-relaxed">
+            <p>
+              Amertarva berhak memperbarui, mengubah, atau menyelaraskan Ketentuan ini dari waktu ke waktu guna mematuhi perkembangan regulasi atau penambahan fitur baru pada platform LMS.
+            </p>
+            <p class="text-xs text-slate-400">
+              Perubahan material akan diberitahukan melalui pengumuman di aplikasi atau situs web sebelum berlaku efektif. Penggunaan berkelanjutan atas layanan setelah tanggal perubahan berlaku dianggap sebagai persetujuan Anda atas Ketentuan yang telah diperbarui.
+            </p>
+
+            <div class="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-5 space-y-3 text-xs">
+              <h3 class="font-bold text-white flex items-center gap-2">
+                <Building2 class="h-4 w-4 text-cyan-400" />
+                <span>Narahubung & Layanan Hukum PT Amerta Digital Creativindo</span>
+              </h3>
+              <div class="grid gap-2 sm:grid-cols-2 text-slate-300">
+                <div>
+                  <span class="text-slate-500 block text-[11px]">Surel Divisi Legal & Kepatuhan:</span>
+                  <a href="mailto:legal@amertarva.com" class="text-cyan-400 font-medium hover:underline">legal@amertarva.com</a>
+                </div>
+                <div>
+                  <span class="text-slate-500 block text-[11px]">Surel Bantuan & Operasional:</span>
+                  <a href="mailto:halo@amertarva.com" class="text-cyan-400 font-medium hover:underline">halo@amertarva.com</a>
+                </div>
+                <div class="sm:col-span-2 pt-2 border-t border-slate-800 text-slate-400">
+                  <span class="text-slate-500 block text-[11px]">Entitas Pengelola:</span>
+                  PT Amerta Digital Creativindo — Indonesia
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </main>
+    </div>
+  </div>
+
+  <SearchModal />
+  <Footer />
+</Layout>

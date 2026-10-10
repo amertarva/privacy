@@ -22,16 +22,26 @@ import { ShieldCheck, Scale, ArrowUp, Mail, Printer } from '@lucide/astro';
         </div>
       </div>
 
-      <!-- Col 2: Navigasi Cepat -->
+      <!-- Col 2: Navigasi Dokumen Hukum -->
       <div>
-        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">Tautan Utama</h4>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">Dokumen Kebijakan</h4>
         <ul class="space-y-2">
-          <li><a href="#tentang" class="hover:text-indigo-400 transition">1. Tentang Kebijakan</a></li>
-          <li><a href="#data-diproses" class="hover:text-indigo-400 transition">2. Data yang Diproses</a></li>
-          <li><a href="#tujuan-dasar" class="hover:text-indigo-400 transition">4. Tujuan Pemrosesan</a></li>
-          <li><a href="#pengguna-anak" class="hover:text-indigo-400 transition">8. Perlindungan Data Anak</a></li>
-          <li><a href="#hak-pengguna" class="hover:text-indigo-400 transition">10. Hak Subjek Data</a></li>
-          <li><a href="#kontak" class="hover:text-indigo-400 transition">11. Saluran Kontak</a></li>
+          <li>
+            <a href="/" class="flex items-center gap-1.5 hover:text-indigo-400 transition">
+              <ShieldCheck class="h-3.5 w-3.5 text-indigo-400" />
+              <span>Kebijakan Privasi (PDP)</span>
+            </a>
+          </li>
+          <li>
+            <a href="/term" class="flex items-center gap-1.5 hover:text-cyan-400 transition">
+              <Scale class="h-3.5 w-3.5 text-cyan-400" />
+              <span>Syarat & Ketentuan (ToS)</span>
+            </a>
+          </li>
+          <li><a href="/#data-diproses" class="hover:text-slate-300 transition pl-5">Kategori Data Pribadi</a></li>
+          <li><a href="/term#lisensi" class="hover:text-slate-300 transition pl-5">Lisensi Platform LMS</a></li>
+          <li><a href="/term#ujian-cbt" class="hover:text-slate-300 transition pl-5">Integritas Ujian & CBT</a></li>
+          <li><a href="/#hak-pengguna" class="hover:text-slate-300 transition pl-5">Hak Subjek Data</a></li>
         </ul>
       </div>
 
