@@ -1,23 +1,47 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { 
+	title = 'Kebijakan Privasi Amertarva LMS | PT Amerta Digital Creativindo',
+	description = 'Kebijakan Privasi resmi Amertarva LMS mengenai pemrosesan data pribadi siswa, guru, dan administrator sesuai UU No. 27 Tahun 2022 (UU PDP).'
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="id" class="h-full scroll-smooth">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="author" content="PT Amerta Digital Creativindo" />
+		<meta name="robots" content="index, follow" />
+
+		<!-- Open Graph / Meta Sosial -->
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:locale" content="id_ID" />
+		<meta property="og:site_name" content="Amertarva LMS" />
+
+		<!-- Google Fonts Preconnect & Load -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link 
+			href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" 
+			rel="stylesheet" 
+		/>
 	</head>
-	<body>
+	<body class="min-h-full bg-slate-950 text-slate-200 antialiased selection:bg-indigo-500 selection:text-white">
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

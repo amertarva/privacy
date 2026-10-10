@@ -1,0 +1,108 @@
+---
+import { 
+  FileText, 
+  Database, 
+  Share2, 
+  Target, 
+  Users2, 
+  Archive, 
+  Cookie, 
+  Baby, 
+  ShieldCheck, 
+  UserCheck, 
+  Mail, 
+  RefreshCw,
+  ListChecks,
+  Scale
+} from '@lucide/astro';
+
+const sections = [
+  { id: 'tentang', number: '1', title: 'Tentang Kebijakan Ini', icon: FileText },
+  { id: 'data-diproses', number: '2', title: 'Data yang Dapat Diproses', icon: Database },
+  { id: 'sumber-data', number: '3', title: 'Sumber Perolehan Data', icon: Share2 },
+  { id: 'tujuan-dasar', number: '4', title: 'Tujuan & Dasar Pemrosesan', icon: Target },
+  { id: 'akses-pengungkapan', number: '5', title: 'Akses & Pengungkapan Data', icon: Users2 },
+  { id: 'lokasi-retensi', number: '6', title: 'Lokasi & Retensi Data', icon: Archive },
+  { id: 'cookie', number: '7', title: 'Cookie & Teknologi Serupa', icon: Cookie },
+  { id: 'pengguna-anak', number: '8', title: 'Pengguna Anak & Wali', icon: Baby },
+  { id: 'keamanan-insiden', number: '9', title: 'Keamanan & Insiden Data', icon: ShieldCheck },
+  { id: 'hak-pengguna', number: '10', title: 'Hak Pengguna (Subjek Data)', icon: UserCheck },
+  { id: 'kontak', number: '11', title: 'Kontak & Pengaduan', icon: Mail },
+  { id: 'perubahan', number: '12', title: 'Perubahan Kebijakan', icon: RefreshCw },
+];
+---
+
+<nav class="sticky top-20 rounded-2xl border border-slate-800 bg-slate-900/60 p-4 backdrop-blur-md no-print" aria-label="Daftar Isi Kebijakan">
+  <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+    <div class="flex items-center gap-2">
+      <FileText class="h-4 w-4 text-indigo-400" />
+      <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Daftar Isi</h3>
+    </div>
+    <span class="rounded bg-indigo-500/10 px-2 py-0.5 text-[10px] font-medium text-indigo-300">12 Bab</span>
+  </div>
+
+  <div class="mt-3 max-h-[calc(100vh-140px)] overflow-y-auto pr-1 space-y-1 text-xs">
+    {sections.map((item) => (
+      <a 
+        href={`#${item.id}`}
+        class="toc-link group flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-slate-400 transition hover:bg-slate-800/80 hover:text-white"
+        data-target={item.id}
+      >
+        <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-slate-800 text-[10px] font-mono font-medium text-slate-300 group-hover:bg-indigo-600 group-hover:text-white transition">
+          {item.number}
+        </span>
+        <span class="truncate">{item.title}</span>
+      </a>
+    ))}
+
+    <div class="pt-2 border-t border-slate-800/80 space-y-1">
+      <a 
+        href="#catatan-pemilik"
+        class="toc-link group flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-amber-400/80 transition hover:bg-amber-500/10 hover:text-amber-300"
+        data-target="catatan-pemilik"
+      >
+        <ListChecks class="h-4 w-4 shrink-0 text-amber-400" />
+        <span class="truncate font-medium">Catatan Pemilik LMS</span>
+      </a>
+      <a 
+        href="#rujukan"
+        class="toc-link group flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-slate-400 transition hover:bg-slate-800/80 hover:text-slate-200"
+        data-target="rujukan"
+      >
+        <Scale class="h-4 w-4 shrink-0 text-slate-400" />
+        <span class="truncate">Rujukan Regulasi</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const sections = Array.from(tocLinks).map(link => {
+    const id = link.getAttribute('data-target');
+    return document.getElementById(id || '');
+  }).filter(Boolean);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocLinks.forEach(link => {
+          if (link.getAttribute('data-target') === id) {
+            link.classList.add('bg-indigo-600/20', 'text-indigo-300', 'font-medium');
+            link.classList.remove('text-slate-400');
+          } else {
+            link.classList.remove('bg-indigo-600/20', 'text-indigo-300', 'font-medium');
+            link.classList.add('text-slate-400');
+          }
+        });
+      }
+    });
+  }, {
+    rootMargin: '-20% 0px -70% 0px'
+  });
+
+  sections.forEach(sec => {
+    if (sec) observer.observe(sec);
+  });
+</script>

@@ -1,0 +1,264 @@
+---
+import { 
+  CheckSquare, 
+  X, 
+  AlertCircle, 
+  RotateCcw, 
+  ExternalLink,
+  ShieldCheck,
+  Sparkles
+} from '@lucide/astro';
+
+const checklistItems = [
+  {
+    id: 'chk-1',
+    category: 'Tata Kelola & Kontrak',
+    task: 'Tetapkan peran pengendali dan prosesor data untuk data siswa/guru antara sekolah dan PT Amerta Digital Creativindo; selaraskan dengan kontrak sekolah.'
+  },
+  {
+    id: 'chk-2',
+    category: 'Informasi Resmi',
+    task: 'Isi domain, tanggal berlaku, email privasi, alamat korespondensi, dan kanal pengaduan yang benar.'
+  },
+  {
+    id: 'chk-3',
+    category: 'Audit Skema Data',
+    task: 'Cocokkan daftar data dengan skema database dan fitur aktif. Pastikan apakah LMS menyimpan nomor induk, email, avatar, log IP/perangkat, riwayat akses, atau data lain.'
+  },
+  {
+    id: 'chk-4',
+    category: 'Fitur Ujian & Proctoring',
+    task: 'Pastikan fitur ujian hanya menyimpan aktivitas browser atau juga mengambil tangkapan layar, kamera, mikrofon, atau data perangkat lain. Jika fitur tersebut aktif, jelaskan tujuan, dasar, cara kerja, penyimpanan, dan aksesnya secara khusus.'
+  },
+  {
+    id: 'chk-5',
+    category: 'Analitik & 6 CP',
+    task: 'Verifikasi apakah pemetaan enam CP, pengelompokan hasil asesmen, dan dashboard guru sudah aktif; pastikan siapa yang dapat melihat hasilnya dan bagaimana guru menggunakannya.'
+  },
+  {
+    id: 'chk-6',
+    category: 'Infrastruktur & Vendor',
+    task: 'Verifikasi server dan vendor aktif. Hostinger KVM 4 dan Cloudflare pernah dibahas untuk infrastruktur, tetapi cantumkan hanya layanan yang benar-benar digunakan saat ini. Catat juga lokasi pemrosesan data.'
+  },
+  {
+    id: 'chk-7',
+    category: 'Retensi & Ekspor',
+    task: 'Tentukan retensi data akun, nilai/tugas, log, serta cadangan; tentukan proses ekspor dan penghapusan saat kontrak sekolah berakhir.'
+  },
+  {
+    id: 'chk-8',
+    category: 'Cookie & Integrasi',
+    task: 'Periksa cookie/analitik, email, pemantauan, serta penyedia pihak ketiga yang benar-benar terhubung.'
+  },
+  {
+    id: 'chk-9',
+    category: 'Perlindungan Data Anak',
+    task: 'Pastikan proses memperoleh dan menyimpan persetujuan orang tua/wali bagi pemrosesan data anak yang diwajibkan hukum.'
+  },
+  {
+    id: 'chk-10',
+    category: 'Kontrol Keamanan Aktual',
+    task: 'Cocokkan uraian keamanan dengan kontrol yang sungguh diterapkan, termasuk autentikasi, pembatasan akses, enkripsi, pencatatan, pemulihan cadangan, dan prosedur insiden.'
+  },
+  {
+    id: 'chk-11',
+    category: 'Peninjauan Hukum Final',
+    task: 'Minta peninjauan hukum/operasional terhadap versi final dan pastikan alur untuk menangani permintaan hak pengguna benar-benar tersedia.'
+  }
+];
+---
+
+<!-- Modal backdrop -->
+<div 
+  id="checklist-modal" 
+  class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm transition-opacity no-print"
+  aria-labelledby="checklist-title" 
+  role="dialog" 
+  aria-modal="true"
+>
+  <div class="fixed inset-y-0 right-0 flex max-w-full pl-10">
+    <div class="w-screen max-w-xl border-l border-slate-800 bg-slate-900 shadow-2xl flex flex-col">
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-slate-800 px-6 py-4">
+        <div class="flex items-center gap-3">
+          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-400">
+            <CheckSquare class="h-5 w-5" />
+          </div>
+          <div>
+            <h3 id="checklist-title" class="text-sm font-bold text-white">Daftar Periksa Kepatuhan LMS</h3>
+            <p class="text-xs text-slate-400">Catatan Pemilik & Pengembang Pra-Publikasi</p>
+          </div>
+        </div>
+        <button 
+          id="close-checklist-btn"
+          type="button" 
+          class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white"
+        >
+          <X class="h-5 w-5" />
+        </button>
+      </div>
+
+      <!-- Progress Meter -->
+      <div class="border-b border-slate-800/80 bg-slate-950/50 px-6 py-3">
+        <div class="flex items-center justify-between text-xs mb-1.5">
+          <span class="font-medium text-slate-300">Kesiapan Dokumen & Sistem:</span>
+          <span id="checklist-progress-text" class="font-mono font-bold text-indigo-400">0 / 11 Selesai (0%)</span>
+        </div>
+        <div class="h-2 w-full overflow-hidden rounded-full bg-slate-800">
+          <div 
+            id="checklist-progress-bar"
+            class="h-full bg-gradient-to-r from-indigo-500 to-emerald-400 transition-all duration-300"
+            style="width: 0%"
+          ></div>
+        </div>
+      </div>
+
+      <!-- Checklist Items -->
+      <div class="flex-1 overflow-y-auto px-6 py-4 space-y-3">
+        <div class="rounded-xl border border-amber-500/20 bg-amber-500/10 p-3 text-xs text-amber-200 flex items-start gap-2.5">
+          <AlertCircle class="h-4 w-4 shrink-0 text-amber-400 mt-0.5" />
+          <span>Status checklist tersimpan secara otomatis di peramban ini untuk memudahkan pelacakan implementasi bersama tim teknis dan legal.</span>
+        </div>
+
+        {checklistItems.map((item, index) => (
+          <label 
+            for={item.id}
+            class="group flex items-start gap-3 rounded-xl border border-slate-800/80 bg-slate-950/40 p-3.5 transition hover:border-slate-700 hover:bg-slate-800/40 cursor-pointer"
+          >
+            <input 
+              type="checkbox" 
+              id={item.id}
+              class="compliance-checkbox mt-0.5 h-4 w-4 rounded border-slate-700 bg-slate-900 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-slate-950" 
+            />
+            <div class="flex-1 text-xs">
+              <div class="flex items-center justify-between mb-1">
+                <span class="rounded bg-slate-800 px-2 py-0.5 text-[10px] font-medium text-slate-400 group-hover:text-slate-300">
+                  {item.category}
+                </span>
+                <span class="font-mono text-[10px] text-slate-500">#{index + 1}</span>
+              </div>
+              <p class="text-slate-300 leading-relaxed group-hover:text-white transition">
+                {item.task}
+              </p>
+            </div>
+          </label>
+        ))}
+      </div>
+
+      <!-- Footer action -->
+      <div class="border-t border-slate-800 px-6 py-3 flex items-center justify-between bg-slate-950/70">
+        <button 
+          id="reset-checklist-btn"
+          type="button" 
+          class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-rose-400 transition"
+        >
+          <RotateCcw class="h-3.5 w-3.5" />
+          <span>Reset Semua</span>
+        </button>
+        <button 
+          id="close-checklist-bottom-btn"
+          type="button" 
+          class="rounded-lg bg-indigo-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500 transition"
+        >
+          Selesai Meninjau
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('checklist-modal');
+  const openBtns = [
+    document.getElementById('open-checklist-btn'),
+    document.getElementById('mobile-open-checklist-btn')
+  ];
+  const closeBtns = [
+    document.getElementById('close-checklist-btn'),
+    document.getElementById('close-checklist-bottom-btn')
+  ];
+  const resetBtn = document.getElementById('reset-checklist-btn');
+  const checkboxes = document.querySelectorAll('.compliance-checkbox');
+  const progressBar = document.getElementById('checklist-progress-bar');
+  const progressText = document.getElementById('checklist-progress-text');
+  const badgeNavbar = document.getElementById('checklist-counter-badge');
+  const badgeMobile = document.getElementById('mobile-checklist-badge');
+
+  const STORAGE_KEY = 'amertarva_pdp_checklist_v1';
+
+  function updateChecklistProgress() {
+    const total = checkboxes.length;
+    let checkedCount = 0;
+    const states: Record<string, boolean> = {};
+
+    checkboxes.forEach((cb) => {
+      const input = cb as HTMLInputElement;
+      if (input.checked) {
+        checkedCount++;
+        states[input.id] = true;
+      } else {
+        states[input.id] = false;
+      }
+    });
+
+    const percent = Math.round((checkedCount / total) * 100);
+    if (progressBar) progressBar.style.width = `${percent}%`;
+    if (progressText) progressText.textContent = `${checkedCount} / ${total} Selesai (${percent}%)`;
+    if (badgeNavbar) badgeNavbar.textContent = `${checkedCount}/${total}`;
+    if (badgeMobile) badgeMobile.textContent = `${checkedCount}/${total}`;
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(states));
+  }
+
+  function loadChecklistState() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const states = JSON.parse(saved);
+        checkboxes.forEach((cb) => {
+          const input = cb as HTMLInputElement;
+          if (states[input.id]) {
+            input.checked = true;
+          }
+        });
+      }
+    } catch {
+      // ignore JSON errors
+    }
+    updateChecklistProgress();
+  }
+
+  openBtns.forEach(btn => {
+    btn?.addEventListener('click', () => {
+      modal?.classList.remove('hidden');
+    });
+  });
+
+  closeBtns.forEach(btn => {
+    btn?.addEventListener('click', () => {
+      modal?.classList.add('hidden');
+    });
+  });
+
+  // Close when clicking backdrop
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.add('hidden');
+    }
+  });
+
+  checkboxes.forEach(cb => {
+    cb.addEventListener('change', updateChecklistProgress);
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    if (confirm('Apakah Anda yakin ingin mereset seluruh checklist kepatuhan?')) {
+      checkboxes.forEach(cb => {
+        (cb as HTMLInputElement).checked = false;
+      });
+      updateChecklistProgress();
+    }
+  });
+
+  loadChecklistState();
+</script>

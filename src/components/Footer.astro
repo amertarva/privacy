@@ -1,0 +1,85 @@
+---
+import { ShieldCheck, Scale, ArrowUp, Mail, Printer } from '@lucide/astro';
+---
+
+<footer class="border-t border-slate-800/80 bg-slate-950 py-12 text-xs text-slate-400 no-print">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="grid gap-8 md:grid-cols-4">
+      <!-- Col 1: Brand & Identity -->
+      <div class="md:col-span-2 space-y-3">
+        <div class="flex items-center gap-2.5">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-white shadow-md">
+            <ShieldCheck class="h-4 w-4" />
+          </div>
+          <span class="text-base font-bold text-white">Amertarva LMS</span>
+        </div>
+        <p class="max-w-md text-slate-400 leading-relaxed">
+          Platform Learning Management System (LMS) terpadu yang dikembangkan dan dioperasikan oleh <strong class="text-slate-300">PT Amerta Digital Creativindo</strong> guna mendukung transformasi digital sekolah dan madrasah di Indonesia secara aman dan bertanggung jawab.
+        </p>
+        <div class="flex items-center gap-2 pt-1 text-slate-500">
+          <Scale class="h-3.5 w-3.5 text-indigo-400" />
+          <span>Kepatuhan UU RI No. 27 Tahun 2022 (UU PDP) & PP No. 71 Tahun 2019 (PSTE)</span>
+        </div>
+      </div>
+
+      <!-- Col 2: Navigasi Cepat -->
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">Tautan Utama</h4>
+        <ul class="space-y-2">
+          <li><a href="#tentang" class="hover:text-indigo-400 transition">1. Tentang Kebijakan</a></li>
+          <li><a href="#data-diproses" class="hover:text-indigo-400 transition">2. Data yang Diproses</a></li>
+          <li><a href="#tujuan-dasar" class="hover:text-indigo-400 transition">4. Tujuan Pemrosesan</a></li>
+          <li><a href="#pengguna-anak" class="hover:text-indigo-400 transition">8. Perlindungan Data Anak</a></li>
+          <li><a href="#hak-pengguna" class="hover:text-indigo-400 transition">10. Hak Subjek Data</a></li>
+          <li><a href="#kontak" class="hover:text-indigo-400 transition">11. Saluran Kontak</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Legal & Bantuan -->
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-200 mb-3">Dokumentasi & Aksi</h4>
+        <ul class="space-y-2">
+          <li>
+            <button 
+              id="footer-print-btn" 
+              type="button" 
+              class="flex items-center gap-1.5 hover:text-indigo-400 transition"
+            >
+              <Printer class="h-3.5 w-3.5" />
+              <span>Cetak / Cetak PDF</span>
+            </button>
+          </li>
+          <li>
+            <a href="#catatan-pemilik" class="hover:text-amber-400 transition text-amber-400/90">
+              Daftar Pemeriksaan Pra-Publikasi
+            </a>
+          </li>
+          <li>
+            <a href="mailto:privasi@amertarva.com" class="flex items-center gap-1.5 hover:text-indigo-400 transition">
+              <Mail class="h-3.5 w-3.5" />
+              <span>privasi@amertarva.com</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-1.5 hover:text-white transition pt-2">
+              <ArrowUp class="h-3.5 w-3.5" />
+              <span>Kembali ke Atas</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom copyright -->
+    <div class="mt-8 border-t border-slate-900 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-slate-500">
+      <p>© {new Date().getFullYear()} PT Amerta Digital Creativindo. Seluruh hak cipta dilindungi undang-undang.</p>
+      <p class="text-[11px]">Versi Dokumen: Draf 1.0 (Untuk Tinjauan)</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('footer-print-btn')?.addEventListener('click', () => {
+    window.print();
+  });
+</script>

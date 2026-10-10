@@ -1,0 +1,75 @@
+---
+import { 
+  GraduationCap, 
+  School, 
+  ShieldCheck, 
+  UserCheck, 
+  Lock, 
+  BellRing,
+  Sparkles
+} from '@lucide/astro';
+
+const highlights = [
+  {
+    role: 'Siswa & Orang Tua / Wali',
+    icon: GraduationCap,
+    color: 'from-blue-500/20 to-indigo-500/10 border-blue-500/30 text-blue-400',
+    points: [
+      'Data siswa digunakan khusus untuk kegiatan belajar, pengerjaan tugas, dan evaluasi.',
+      'Siswa di bawah 18 tahun dilindungi ketentuan persetujuan orang tua/wali sesuai UU PDP.',
+      'Siswa dan orang tua berhak meminta akses, perbaikan, hingga penghapusan data.'
+    ]
+  },
+  {
+    role: 'Sekolah & Guru (Pendidik)',
+    icon: School,
+    color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/30 text-emerald-400',
+    points: [
+      'Sekolah berperan menentukan tujuan penggunaan data pembelajaran (Pengendali Data).',
+      'Guru dapat mengelola tugas, jawaban ujian, dan asesmen capaian pembelajaran (6 CP).',
+      'Akses data dibatasi ketat berdasarkan pembagian peran dan kelas aktif.'
+    ]
+  },
+  {
+    role: 'Infrastruktur & Keamanan LMS',
+    icon: Lock,
+    color: 'from-purple-500/20 to-indigo-500/10 border-purple-500/30 text-purple-400',
+    points: [
+      'Amertarva menyediakan dan memelihara sistem berstandar teknis andal (Prosesor Data).',
+      'Kewajiban notifikasi kegagalan pelindungan data maksimal 3 × 24 jam ke pihak terkait.',
+      'Enkripsi data, kontrol akses terotorisasi, dan siklus backup berkala.'
+    ]
+  }
+];
+---
+
+<div class="my-8 rounded-2xl border border-slate-800 bg-slate-900/40 p-5 sm:p-6 backdrop-blur-sm no-print">
+  <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+    <div class="flex items-center gap-2.5">
+      <div class="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/20 text-indigo-400">
+        <Sparkles class="h-4 w-4" />
+      </div>
+      <h2 class="text-sm sm:text-base font-bold text-white tracking-tight">Ringkasan Eksekutif (TL;DR)</h2>
+    </div>
+    <span class="text-xs text-slate-400">Poin Kunci Sesuai Peran</span>
+  </div>
+
+  <div class="mt-5 grid gap-4 md:grid-cols-3">
+    {highlights.map((item) => (
+      <div class={`rounded-xl border bg-gradient-to-b p-4 ${item.color}`}>
+        <div class="flex items-center gap-2.5 mb-3">
+          <item.icon class="h-5 w-5 shrink-0" />
+          <h3 class="text-xs sm:text-sm font-semibold text-slate-100">{item.role}</h3>
+        </div>
+        <ul class="space-y-2 text-xs text-slate-300">
+          {item.points.map((pt) => (
+            <li class="flex items-start gap-2">
+              <span class="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-400"></span>
+              <span class="leading-relaxed">{pt}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</div>

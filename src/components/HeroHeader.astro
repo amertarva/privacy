@@ -1,0 +1,205 @@
+---
+import {
+  Building2,
+  Calendar,
+  Globe,
+  Clock,
+  ShieldAlert,
+  FileCheck,
+  Scale,
+  Share2,
+  Copy,
+  Check,
+  ArrowDownCircle,
+} from "@lucide/astro";
+---
+
+<section
+  class="relative overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-slate-900/60 via-slate-950 to-slate-950 py-12 sm:py-16"
+>
+  <!-- Glowing background elements -->
+  <div
+    class="pointer-events-none absolute -top-32 left-1/2 -z-10 h-96 w-96 -translate-x-1/2 rounded-full bg-indigo-600/15 blur-3xl"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute top-12 -right-24 -z-10 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl"
+  >
+  </div>
+
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl">
+      <!-- Entity badge -->
+      <div
+        class="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold text-indigo-300"
+      >
+        <Building2 class="h-3.5 w-3.5 text-indigo-400" />
+        <span>PT AMERTA DIGITAL CREATIVINDO</span>
+      </div>
+
+      <!-- Main document title -->
+      <h1
+        class="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-5xl"
+      >
+        Kebijakan Privasi <span
+          class="bg-gradient-to-r from-indigo-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent"
+          >Amertarva LMS</span
+        >
+      </h1>
+
+      <p class="mt-4 text-base text-slate-300 sm:text-lg leading-relaxed">
+        Pedoman transparansi atas pemrosesan data pribadi siswa, guru,
+        administrator sekolah, dan mitra institusi pada Learning Management
+        System (LMS) Amertarva berlandaskan Undang-Undang Republik Indonesia
+        Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi.
+      </p>
+
+      <!-- Review Alert Notice -->
+      <div
+        class="mt-6 rounded-2xl border border-amber-500/30 bg-amber-950/20 p-4 sm:p-5 backdrop-blur-sm"
+      >
+        <div class="flex items-start gap-3.5">
+          <div
+            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-400"
+          >
+            <ShieldAlert class="h-5 w-5" />
+          </div>
+          <div class="space-y-1">
+            <div class="flex flex-wrap items-center gap-2">
+              <span
+                class="text-xs font-bold uppercase tracking-wider text-amber-300"
+                >Status Dokumen: Draf Peninjauan</span
+              >
+              <span
+                class="rounded bg-amber-500/20 px-2 py-0.5 text-[11px] font-medium text-amber-200"
+                >Pra-Publikasi</span
+              >
+            </div>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              Dokumen ini merupakan draf untuk ditinjau. Bagian yang ditandai
+              dengan label <code
+                class="rounded bg-amber-500/20 px-1.5 py-0.5 font-mono text-amber-300 text-xs font-semibold"
+                >[dalam kurung siku]</code
+              > harus diverifikasi dan diisi oleh tim teknis & manajemen PT Amerta
+              Digital Creativindo sebelum diterbitkan ke publik.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metadata summary cards -->
+      <div class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <!-- Berlaku Mulai -->
+        <div
+          class="rounded-xl border border-slate-800 bg-slate-900/60 p-3.5 backdrop-blur-sm"
+        >
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <Calendar class="h-3.5 w-3.5 text-indigo-400" />
+            <span>Berlaku Mulai</span>
+          </div>
+          <div
+            class="mt-2 font-mono text-xs font-medium text-amber-300 placeholder-badge"
+          >
+            1 Oktober 2026
+          </div>
+        </div>
+
+        <!-- Terakhir Diperbarui -->
+        <div
+          class="rounded-xl border border-slate-800 bg-slate-900/60 p-3.5 backdrop-blur-sm"
+        >
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <Clock class="h-3.5 w-3.5 text-cyan-400" />
+            <span>Terakhir Diperbarui</span>
+          </div>
+          <div
+            class="mt-2 font-mono text-xs font-medium text-amber-300 placeholder-badge"
+          >
+            10 Oktober 2026
+          </div>
+        </div>
+
+        <!-- Alamat Layanan -->
+        <div
+          class="rounded-xl border border-slate-800 bg-slate-900/60 p-3.5 backdrop-blur-sm"
+        >
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <Globe class="h-3.5 w-3.5 text-emerald-400" />
+            <span>Alamat LMS</span>
+          </div>
+          <div
+            class="mt-2 font-mono text-xs font-medium text-amber-300 placeholder-badge truncate"
+            title="[URL LMS Amertarva]"
+          >
+            learning.amertarva.com
+          </div>
+        </div>
+
+        <!-- Standar Regulasi -->
+        <div
+          class="rounded-xl border border-slate-800 bg-slate-900/60 p-3.5 backdrop-blur-sm"
+        >
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <Scale class="h-3.5 w-3.5 text-purple-400" />
+            <span>Rujukan Regulasi</span>
+          </div>
+          <div class="mt-2 text-xs font-semibold text-slate-200">
+            UU PDP No. 27/2022
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick action buttons -->
+      <div class="mt-8 flex flex-wrap items-center gap-3 no-print">
+        <a
+          href="#tentang"
+          class="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-indigo-600/30 transition hover:bg-indigo-500"
+        >
+          <ArrowDownCircle class="h-4 w-4" />
+          <span>Mulai Membaca Dokumen</span>
+        </a>
+
+        <button
+          id="copy-url-btn"
+          type="button"
+          class="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/80 px-4 py-2.5 text-xs font-medium text-slate-300 transition hover:border-slate-700 hover:text-white"
+        >
+          <Copy class="h-4 w-4 text-slate-400" id="copy-icon" />
+          <Check class="hidden h-4 w-4 text-emerald-400" id="copied-icon" />
+          <span id="copy-btn-text">Salin Tautan</span>
+        </button>
+
+        <a
+          href="#kontak"
+          class="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/80 px-4 py-2.5 text-xs font-medium text-slate-300 transition hover:border-slate-700 hover:text-white"
+        >
+          <FileCheck class="h-4 w-4 text-slate-400" />
+          <span>Hubungi Tim Privasi</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const copyBtn = document.getElementById("copy-url-btn");
+  const copyIcon = document.getElementById("copy-icon");
+  const copiedIcon = document.getElementById("copied-icon");
+  const copyText = document.getElementById("copy-btn-text");
+
+  copyBtn?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      copyIcon?.classList.add("hidden");
+      copiedIcon?.classList.remove("hidden");
+      if (copyText) copyText.textContent = "Tautan Disalin!";
+      setTimeout(() => {
+        copyIcon?.classList.remove("hidden");
+        copiedIcon?.classList.add("hidden");
+        if (copyText) copyText.textContent = "Salin Tautan";
+      }, 2500);
+    } catch {
+      // fallback
+    }
+  });
+</script>

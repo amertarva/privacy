@@ -1,11 +1,871 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import HeroHeader from '../components/HeroHeader.astro';
+import KeyHighlights from '../components/KeyHighlights.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import ComplianceChecklistModal from '../components/ComplianceChecklistModal.astro';
+import SearchModal from '../components/SearchModal.astro';
+import Footer from '../components/Footer.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { 
+  Shield, 
+  ShieldCheck, 
+  ShieldAlert, 
+  FileText, 
+  Database, 
+  Server, 
+  Clock, 
+  Calendar, 
+  Lock, 
+  Users, 
+  GraduationCap, 
+  School, 
+  Baby, 
+  AlertTriangle, 
+  CheckCircle2, 
+  Check, 
+  Copy, 
+  ExternalLink, 
+  HelpCircle, 
+  Sparkles, 
+  Target, 
+  Building2, 
+  Scale, 
+  Layers, 
+  Activity, 
+  Cookie, 
+  UserCheck, 
+  Mail, 
+  MapPin, 
+  FileCheck, 
+  ListChecks, 
+  AlertCircle,
+  Eye,
+  CornerDownRight,
+  BookOpen,
+  UserPlus,
+  Laptop
+} from '@lucide/astro';
+
+const dataCategories = [
+  {
+    category: 'Identitas dan akun',
+    badge: 'Autentikasi & Akun',
+    badgeColor: 'border-blue-500/30 bg-blue-500/10 text-blue-300',
+    description: 'Nama lengkap, nama pengguna (username) atau alamat email resmi yang diberikan, nomor identitas sekolah (NIS/NIP/NUPTK jika digunakan), peran pengguna (siswa, guru, staf, administrator), sekolah, kelas, serta informasi autentikasi akun (kata sandi terenkripsi / kredensial).'
+  },
+  {
+    category: 'Aktivitas pembelajaran',
+    badge: 'Akademik & LMS',
+    badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300',
+    description: 'Kelas yang diikuti, materi atau modul aktivitas LMS yang diakses, tugas dan berkas yang dikumpulkan, lembar jawaban ujian daring, waktu pengerjaan, perolehan nilai, umpan balik dari guru, serta riwayat percobaan evaluasi.'
+  },
+  {
+    category: 'Hasil asesmen dan analisis pembelajaran',
+    badge: 'Analitik & 6 CP',
+    badgeColor: 'border-purple-500/30 bg-purple-500/10 text-purple-300',
+    description: 'Skor evaluasi, pemetaan hasil belajar pada enam Capaian Pembelajaran (CP), hasil pengelompokan siswa (clustering tingkat pemahaman), serta ringkasan atau dashboard guru, jika fitur analisis tersebut digunakan dalam kelas.'
+  },
+  {
+    category: 'Profil pengguna',
+    badge: 'Kustomisasi Akun',
+    badgeColor: 'border-sky-500/30 bg-sky-500/10 text-sky-300',
+    description: 'Foto profil atau avatar pilihan, biodata singkat, dan informasi profil tambahan lain yang ditambahkan secara sukarela oleh pengguna, jika fitur tersebut diaktifkan oleh sekolah.'
+  },
+  {
+    category: 'Informasi teknis dan keamanan',
+    badge: 'Sistem & Audit',
+    badgeColor: 'border-amber-500/30 bg-amber-500/10 text-amber-300',
+    description: 'Catatan login (login logs), waktu dan durasi akses, alamat IP publik, jenis dan versi peramban (browser), tipe sistem operasi atau perangkat, catatan kesalahan aplikasi (crash logs), serta peristiwa keamanan yang dicatat oleh sistem audit LMS.'
+  },
+  {
+    category: 'Komunikasi layanan',
+    badge: 'Dukungan Pengguna',
+    badgeColor: 'border-rose-500/30 bg-rose-500/10 text-rose-300',
+    description: 'Isi korespondensi dan pesan yang dikirimkan ketika siswa, guru, atau perwakilan sekolah menghubungi kanal dukungan teknis, layanan bantuan, atau administrator sistem.'
+  },
+  {
+    category: 'Cookie atau penyimpanan sesi',
+    badge: 'Penyimpanan Sesi',
+    badgeColor: 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300',
+    description: 'Data teknis lokal (session storage/cookies) yang diperlukan untuk menjaga kesinambungan sesi login, integritas pengerjaan ujian, dan fungsi inti LMS. Cookie pelacak pihak ketiga hanya aktif jika dinyatakan secara eksplisit.'
+  }
+];
+
+const purposes = [
+  {
+    no: '1',
+    title: 'Manajemen Akun, Kelas, dan Hak Akses',
+    desc: 'Membuat, memvalidasi, dan mengelola akun pengguna, pembagian rombongan belajar (kelas), penetapan peran otorisasi (RBAC), serta hak akses berjenjang pada sistem LMS Amertarva.'
+  },
+  {
+    no: '2',
+    title: 'Penyelenggaraan Kegiatan Pembelajaran & Analisis',
+    desc: 'Menyampaikan modul materi, memfasilitasi pengumpulan tugas, menyelenggarakan ujian, menampilkan rekapitulasi nilai, memetakan hasil belajar pada enam Capaian Pembelajaran (CP), mengelompokkan hasil asesmen, dan menyajikan dasbor ringkasan bagi guru.'
+  },
+  {
+    no: '3',
+    title: 'Keamanan, Pemeliharaan, dan Pencegahan Gangguan',
+    desc: 'Menjaga keamanan akun dari upaya peretasan, mendeteksi kecurangan saat evaluasi, mencegah penyalahgunaan sistem, menanggulangi bug, serta menjalankan pencadangan (backup) data berkala.'
+  },
+  {
+    no: '4',
+    title: 'Dukungan Pengguna & Koordinasi Institusi',
+    desc: 'Menanggapi pertanyaan siswa atau pendidik, menyelesaikan kendala teknis yang dilaporkan, serta berkoordinasi secara berkala dengan pihak sekolah.'
+  },
+  {
+    no: '5',
+    title: 'Kepatuhan Regulasi & Penyelesaian Sengketa',
+    desc: 'Memenuhi kewajiban perundang-undangan di Indonesia, menindaklanjuti permintaan yang sah dari aparat yang berwenang, serta melindungi hak hukum dalam hal timbul sengketa.'
+  }
+];
+
+const userRights = [
+  {
+    title: 'Hak Memperoleh Informasi',
+    desc: 'Mengetahui kejelasan identitas pihak yang memproses, tujuan pemrosesan, dan dasar hukum penanganan data pribadi Anda.',
+    article: 'Pasal 21 UU PDP'
+  },
+  {
+    title: 'Hak Mengakses & Mendapatkan Salinan',
+    desc: 'Meminta konfirmasi dan salinan data pribadi yang tersimpan dalam sistem LMS Amertarva sesuai ketentuan yang berlaku.',
+    article: 'Pasal 22 UU PDP'
+  },
+  {
+    title: 'Hak Melengkapi atau Memperbaiki Data',
+    desc: 'Memperbaiki kekeliruan, kesalahan penulisan, atau ketidaklengkapan data pribadi akun dan profil Anda.',
+    article: 'Pasal 23 UU PDP'
+  },
+  {
+    title: 'Hak Pengakhiran & Pembatasan Pemrosesan',
+    desc: 'Mengajukan permohonan pembatasan atau penghentian pemrosesan data pribadi jika tujuan pemrosesan telah berakhir.',
+    article: 'Pasal 24 UU PDP'
+  },
+  {
+    title: 'Hak Menghapus & Memusnahkan Data',
+    desc: 'Meminta penghapusan akun dan data pribadi setelah masa retensi atau setelah berakhirnya hubungan kemitraan dengan sekolah.',
+    article: 'Pasal 25 UU PDP'
+  },
+  {
+    title: 'Hak Penarikan Persetujuan (Consent)',
+    desc: 'Menarik kembali persetujuan yang pernah Anda berikan atas pemrosesan data tertentu yang membutuhkan izin eksplisit.',
+    article: 'Pasal 26 UU PDP'
+  },
+  {
+    title: 'Hak Mengajukan Keberatan atas Keputusan Otomatis',
+    desc: 'Mengajukan keberatan terhadap tindakan penilaian atau keputusan yang semata-mata dihasilkan oleh algoritma otomatis.',
+    article: 'Pasal 27 UU PDP'
+  },
+  {
+    title: 'Hak Portabilitas Data',
+    desc: 'Menerima data pribadi Anda dalam format terstruktur dan umum digunakan untuk ditransfer ke sistem lain yang kompatibel.',
+    article: 'Pasal 28 UU PDP'
+  }
+];
 ---
 
 <Layout>
-	<Welcome />
+  <!-- Main Header & Top Progress -->
+  <Navbar />
+
+  <!-- Hero Header -->
+  <HeroHeader />
+
+  <!-- Main Body Content -->
+  <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-10 lg:grid-cols-12">
+      <!-- Sticky Table of Contents Sidebar -->
+      <aside class="hidden lg:col-span-4 lg:block xl:col-span-3">
+        <TableOfContents />
+      </aside>
+
+      <!-- Main Document Articles -->
+      <main class="lg:col-span-8 xl:col-span-9 space-y-12">
+        <!-- Quick Summary TL;DR Cards -->
+        <KeyHighlights />
+
+        <!-- Print-only document header -->
+        <div class="hidden print-only border-b-2 border-slate-900 pb-4 mb-6">
+          <h1 class="text-2xl font-bold">PT AMERTA DIGITAL CREATIVINDO</h1>
+          <h2 class="text-xl font-semibold">Kebijakan Privasi Amertarva LMS</h2>
+          <p class="text-xs text-slate-600 mt-1">Dokumen Resmi Tata Kelola dan Perlindungan Data Pribadi Pembelajaran</p>
+        </div>
+
+        <!-- 1. Tentang Kebijakan Ini -->
+        <article id="tentang" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              01
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">1. Tentang kebijakan ini</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>
+              Amertarva adalah layanan Learning Management System (LMS) yang dioperasikan dan dikelola oleh <strong class="text-white font-semibold">PT Amerta Digital Creativindo</strong> (“Amertarva”, “kami”). Kebijakan ini menjelaskan bagaimana data pribadi diproses ketika siswa, guru, administrator sekolah, dan kontak pelanggan menggunakan ekosistem LMS Amertarva, alasan pemrosesannya, pihak-pihak yang dapat menerima data, masa penyimpanan, serta pilihan dan hak hukum yang dimiliki oleh pengguna.
+            </p>
+
+            <div class="rounded-xl border border-indigo-500/20 bg-indigo-950/20 p-4">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-300 mb-2">Pemisahan Peran Pengendali & Prosesor Data:</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Jika sekolah menyediakan LMS kepada siswa dan guru, <strong class="text-white">sekolah bertindak sebagai pihak yang menentukan tujuan penggunaan data pembelajaran</strong> (Pengendali Data Pribadi / <em>Data Controller</em>), sedangkan <strong class="text-white">Amertarva menyediakan dan memelihara sistem teknologi</strong> (Prosesor Data Pribadi / <em>Data Processor</em>) sesuai dengan perjanjian layanan yang disepakati bersama sekolah.
+              </p>
+            </div>
+
+            <p>
+              Peran masing-masing pihak untuk setiap kategori data akan mengikuti perjanjian layanan dan ketentuan peraturan perundang-undangan yang berlaku. Untuk pertanyaan atau permintaan terkait data pembelajaran, pengguna dapat menghubungi pihak sekolah secara langsung atau menghubungi tim privasi Amertarva melalui kontak pada <a href="#kontak" class="text-indigo-400 hover:underline">bagian 11</a>.
+            </p>
+          </div>
+        </article>
+
+        <!-- 2. Data yang Dapat Kami Proses -->
+        <article id="data-diproses" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              02
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">2. Data yang dapat kami proses</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>
+              Data yang diproses bergantung pada modul atau fitur yang diaktifkan oleh sekolah serta informasi yang dimasukkan oleh pihak sekolah atau pengguna. Kategori data tersebut mencakup:
+            </p>
+
+            <!-- Table of Categories -->
+            <div class="mt-4 overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+              <table class="w-full text-left text-xs sm:text-sm table-print">
+                <thead class="border-b border-slate-800 bg-slate-900/90 text-slate-200">
+                  <tr>
+                    <th class="p-3.5 font-bold uppercase tracking-wider w-1/3 sm:w-1/4">Kategori Data</th>
+                    <th class="p-3.5 font-bold uppercase tracking-wider">Rincian & Contoh Data</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/70">
+                  {dataCategories.map((row) => (
+                    <tr class="transition hover:bg-slate-800/30">
+                      <td class="p-3.5 align-top font-semibold text-white">
+                        <div class="space-y-1.5">
+                          <span>{row.category}</span>
+                          <div>
+                            <span class={`inline-block rounded px-2 py-0.5 text-[10px] font-medium border ${row.badgeColor}`}>
+                              {row.badge}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="p-3.5 align-top text-slate-300 leading-relaxed">
+                        {row.description}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Warning notice for file uploads -->
+            <div class="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 flex items-start gap-3">
+              <AlertTriangle class="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+              <div class="text-xs sm:text-sm text-slate-300 space-y-1">
+                <span class="font-bold text-amber-300">Himbauan Privasi Berkas Unggahan:</span>
+                <p>
+                  Berkas tugas atau jawaban ujian yang diunggah oleh pengguna dapat memuat data pribadi yang tertulis atau terlihat di dalamnya (misalnya foto tulisan tangan, dokumen PDF, atau rekaman). Pengguna dan siswa dihimbau untuk hanya mengunggah informasi yang benar-benar relevan dan diperlukan untuk kegiatan pembelajaran.
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. Sumber Data -->
+        <article id="sumber-data" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              03
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">3. Sumber data</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>Kami memperoleh dan mengumpulkan data pribadi melalui tiga kanal utama:</p>
+
+            <div class="grid gap-4 sm:grid-cols-3 mt-4">
+              <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
+                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-500/20 text-blue-400">
+                  <School class="h-5 w-5" />
+                </div>
+                <h3 class="text-sm font-semibold text-white">1. Sekolah & Administrator</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Pihak sekolah atau admin yang mendaftarkan data awal akun, mengalokasikan kelas, menetapkan peran guru dan siswa ke dalam sistem.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
+                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400">
+                  <Users class="h-5 w-5" />
+                </div>
+                <h3 class="text-sm font-semibold text-white">2. Pengguna Langsung</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Data yang diberikan langsung oleh pengguna saat melengkapi profil, mengerjakan tugas, mengikuti evaluasi/ujian daring, atau mengirim pertanyaan bantuan.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
+                <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-purple-500/20 text-purple-400">
+                  <Laptop class="h-5 w-5" />
+                </div>
+                <h3 class="text-sm font-semibold text-white">3. Otomatis dari Sistem</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  Terekam secara otomatis oleh sistem saat pengguna mengakses LMS (alamat IP, peramban, stempel waktu pengerjaan, dan catatan audit keamanan).
+                </p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4. Tujuan dan Dasar Pemrosesan -->
+        <article id="tujuan-dasar" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              04
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">4. Tujuan dan dasar pemrosesan</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>Data pribadi yang dikumpulkan digunakan semata-mata sejauh diperlukan untuk tujuan-tujuan berikut:</p>
+
+            <div class="space-y-3 mt-4">
+              {purposes.map((item) => (
+                <div class="flex items-start gap-3.5 rounded-xl border border-slate-800/80 bg-slate-950/40 p-3.5">
+                  <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-indigo-600/20 text-xs font-mono font-bold text-indigo-400">
+                    {item.no}
+                  </span>
+                  <div>
+                    <h3 class="text-xs sm:text-sm font-semibold text-white">{item.title}</h3>
+                    <p class="mt-1 text-xs sm:text-sm text-slate-400 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <!-- Legal Basis Explanation -->
+            <div class="mt-6 rounded-xl border border-slate-800 bg-slate-950/60 p-4 sm:p-5 space-y-3">
+              <div class="flex items-center gap-2">
+                <Scale class="h-4 w-4 text-indigo-400" />
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Dasar Hukum Pemrosesan (Legal Basis)</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Dasar pemrosesan ditentukan secara spesifik untuk setiap kegiatan pemrosesan data sesuai hubungan layanan dan peraturan pelindungan data pribadi di Indonesia. Dasar tersebut dapat berupa:
+              </p>
+              <ul class="grid sm:grid-cols-2 gap-2.5 text-xs text-slate-300">
+                <li class="rounded-lg border border-slate-800 bg-slate-900/80 p-2.5 flex items-start gap-2">
+                  <span class="h-1.5 w-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0"></span>
+                  <span><strong>Pelaksanaan Perjanjian:</strong> Kontrak penyediaan layanan LMS antara Amertarva dan institusi sekolah.</span>
+                </li>
+                <li class="rounded-lg border border-slate-800 bg-slate-900/80 p-2.5 flex items-start gap-2">
+                  <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0"></span>
+                  <span><strong>Kewajiban Hukum:</strong> Kepatuhan terhadap ketentuan peraturan perundang-undangan pendidikan & ITE.</span>
+                </li>
+                <li class="rounded-lg border border-slate-800 bg-slate-900/80 p-2.5 flex items-start gap-2">
+                  <span class="h-1.5 w-1.5 rounded-full bg-cyan-400 mt-1.5 shrink-0"></span>
+                  <span><strong>Kepentingan yang Sah:</strong> Menjaga stabilitas infrastruktur, ketahanan siber, dan audit mutu layanan.</span>
+                </li>
+                <li class="rounded-lg border border-slate-800 bg-slate-900/80 p-2.5 flex items-start gap-2">
+                  <span class="h-1.5 w-1.5 rounded-full bg-purple-400 mt-1.5 shrink-0"></span>
+                  <span><strong>Persetujuan Spesifik:</strong> Izin tersendiri untuk fitur opsional yang memang mewajibkan persetujuan subjek data.</span>
+                </li>
+              </ul>
+              <div class="rounded-lg bg-indigo-500/10 p-3 text-xs text-indigo-200">
+                <strong>Catatan Prinsip Kepatuhan:</strong> Persetujuan (consent) tidak digunakan sebagai dasar umum untuk semua pemrosesan. Rincian dasar hukum untuk setiap tujuan diselaraskan secara tertulis dalam perjanjian kerja sama antara Amertarva dan pihak sekolah.
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5. Akses dan Pengungkapan Data -->
+        <article id="akses-pengungkapan" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              05
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">5. Akses dan pengungkapan data</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>
+              Data pembelajaran hanya dapat diakses oleh pihak yang berwenang berdasarkan prinsip pembatasan akses ketat:
+            </p>
+
+            <div class="grid gap-3 sm:grid-cols-2 mt-3">
+              <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-300 mb-1">Akses Sekolah & Guru</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Guru dan administrator sekolah yang berwenang memiliki akses data pembelajaran sesuai peran dan kelas masing-masing di LMS untuk keperluan edukatif dan penilaian siswa.
+                </p>
+              </div>
+
+              <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-300 mb-1">Personel Amertarva</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                  Personel PT Amerta Digital Creativindo hanya dapat mengakses data sejauh diperlukan untuk pengoperasian teknis, pemeliharaan sistem, keamanan siber, atau penanganan tiket bantuan (prinsip <em>need-to-know</em>).
+                </p>
+              </div>
+            </div>
+
+            <!-- Third Party Processors -->
+            <div class="mt-4 rounded-xl border border-slate-800 bg-slate-950/60 p-4 sm:p-5 space-y-3">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-white">Penyedia Layanan Pihak Ketiga (Sub-Prosesor)</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Kami dapat memanfaatkan penyedia infrastruktur terpercaya yang membantu pengoperasian LMS, seperti penyedia server cloud, basis data, penyimpanan berkas, pengiriman email notifikasi, atau sistem monitoring performa.
+              </p>
+              <div class="rounded-lg border border-amber-500/30 bg-amber-950/20 p-3 text-xs text-amber-200">
+                <span class="font-bold text-amber-300">Daftar Sub-Prosesor yang Harus Dilengkapi:</span>
+                <p class="mt-1">
+                  Sebelum kebijakan ini dipublikasikan, nama penyedia, fungsi teknis, dan negara tempat data diproses harus dicantumkan secara lengkap:
+                </p>
+                <div class="mt-2 font-mono font-medium text-amber-300 placeholder-badge p-2 bg-amber-950/40 rounded border border-amber-500/20">
+                  [daftar penyedia, fungsi, dan negara/lokasi pemrosesan]
+                </div>
+              </div>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              Data juga dapat diungkapkan apabila secara tegas diwajibkan oleh peraturan perundang-undangan atau diperlukan untuk menanggapi penetapan resmi dari aparat penegak hukum yang sah. Kami tidak menjual atau menyewakan data pribadi kepada pihak ketiga mana pun untuk tujuan periklanan atau komersial di luar ketentuan ini.
+            </p>
+          </div>
+        </article>
+
+        <!-- 6. Lokasi Penyimpanan dan Masa Retensi -->
+        <article id="lokasi-retensi" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              06
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">6. Lokasi penyimpanan dan masa retensi</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>
+              Data disimpan pada infrastruktur teknologi yang digunakan untuk mengoperasikan LMS Amertarva.
+            </p>
+
+            <!-- Server Location Box -->
+            <div class="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4 space-y-2">
+              <div class="flex items-center gap-2">
+                <Server class="h-4 w-4 text-amber-400" />
+                <h3 class="text-xs font-bold uppercase tracking-wider text-amber-300">Lokasi Server & Pemrosesan Data:</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300">
+                Lokasi server dan kemungkinan pemrosesan di luar wilayah Republik Indonesia harus diisi berdasarkan konfigurasi arsitektur nyata yang digunakan (misal: Hostinger KVM 4 / Cloudflare):
+              </p>
+              <div class="font-mono text-xs font-medium text-amber-300 placeholder-badge p-2 bg-amber-950/40 rounded border border-amber-500/20">
+                [negara/lokasi server, basis data, penyimpanan berkas, dan layanan pendukung]
+              </div>
+            </div>
+
+            <p>
+              Kami menyimpan data pribadi hanya selama diperlukan untuk tujuan pengumpulannya, selama masa aktif layanan sekolah, pemenuhan kewajiban hukum pengarsipan pendidikan, dan penyelesaian sengketa.
+            </p>
+
+            <!-- Retention Schedule Table -->
+            <div class="mt-4 overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60">
+              <table class="w-full text-left text-xs sm:text-sm table-print">
+                <thead class="border-b border-slate-800 bg-slate-900/90 text-slate-200">
+                  <tr>
+                    <th class="p-3.5 font-bold uppercase tracking-wider w-1/3">Jenis Data</th>
+                    <th class="p-3.5 font-bold uppercase tracking-wider">Masa Penyimpanan yang Ditetapkan</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/70">
+                  <tr class="hover:bg-slate-800/30">
+                    <td class="p-3.5 font-semibold text-white">Akun dan profil pengguna</td>
+                    <td class="p-3.5 text-amber-300 font-mono text-xs placeholder-badge">
+                      [berapa lama setelah akun atau kontrak sekolah berakhir]
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/30">
+                    <td class="p-3.5 font-semibold text-white">Tugas, jawaban, nilai, dan catatan pembelajaran</td>
+                    <td class="p-3.5 text-amber-300 font-mono text-xs placeholder-badge">
+                      [ditetapkan bersama sekolah dan disesuaikan dengan kewajiban arsip yang berlaku]
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/30">
+                    <td class="p-3.5 font-semibold text-white">Log akses dan log audit keamanan</td>
+                    <td class="p-3.5 text-amber-300 font-mono text-xs placeholder-badge">
+                      [jangka waktu, misal 6 - 12 bulan]
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/30">
+                    <td class="p-3.5 font-semibold text-white">Salinan cadangan (backup) data</td>
+                    <td class="p-3.5 text-amber-300 font-mono text-xs placeholder-badge">
+                      [siklus penghapusan atau penimpaan setelah data dihapus]
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+              Setelah masa retensi berakhir, data pribadi akan dihapus secara permanen atau dimusnahkan dengan aman, kecuali penyimpanan lebih lanjut diwajibkan oleh ketentuan hukum yang berlaku. Mekanisme ekspor dan penghapusan data ketika kerja sama sekolah berakhir mengikuti ketentuan perjanjian layanan.
+            </p>
+          </div>
+        </article>
+
+        <!-- 7. Cookie dan Teknologi Serupa -->
+        <article id="cookie" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              07
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">7. Cookie dan teknologi serupa</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>
+              LMS Amertarva dapat menggunakan cookie atau teknologi penyimpanan sesi lokal (<em>local storage / session storage</em>) yang mutlak diperlukan untuk menjaga sesi login pengguna, keamanan autentikasi, dan kelancaran fungsi inti aplikasi.
+            </p>
+
+            <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-3">
+              <div class="flex items-center gap-2">
+                <Cookie class="h-4 w-4 text-indigo-400" />
+                <h3 class="text-xs font-bold uppercase tracking-wider text-white">Ketentuan Cookie Pihak Ketiga & Analitik</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Jika Amertarva menggunakan analitik, pelacak, atau cookie pihak ketiga, daftar nama, tujuan pemrosesan, penyedia, dan masa aktifnya akan dijelaskan secara terperinci:
+              </p>
+              <div class="font-mono text-xs font-medium text-amber-300 placeholder-badge p-2 bg-amber-950/40 rounded border border-amber-500/20">
+                [isi daftar atau nyatakan bahwa fitur analitik pihak ketiga tidak digunakan setelah diverifikasi]
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 8. Pengguna Anak dan Persetujuan Orang Tua/Wali -->
+        <article id="pengguna-anak" class="policy-section scroll-mt-24 rounded-2xl border border-indigo-500/40 bg-gradient-to-b from-indigo-950/30 to-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500 text-xs font-bold text-white">
+              08
+            </span>
+            <div>
+              <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">8. Pengguna anak dan persetujuan orang tua/wali</h2>
+              <span class="text-xs font-medium text-indigo-300">Kepatuhan Khusus Perlindungan Subjek Data Anak (UU PDP)</span>
+            </div>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              Sebagian besar pengguna layanan LMS Amertarva adalah siswa yang berusia <strong class="text-white">di bawah 18 tahun</strong> (anak). Berdasarkan ketentuan Undang-Undang Pelindungan Data Pribadi (UU PDP), pemrosesan data pribadi anak dilakukan secara khusus dengan memperoleh <strong class="text-indigo-300">persetujuan dari orang tua dan/atau wali</strong> sesuai ketentuan yang berlaku.
+            </p>
+
+            <div class="rounded-xl border border-indigo-500/30 bg-slate-950/80 p-4 sm:p-5 space-y-2">
+              <div class="flex items-center gap-2">
+                <Baby class="h-4 w-4 text-indigo-400" />
+                <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-300">Kewajiban Pengelolaan Persetujuan Wali:</h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Sekolah dan PT Amerta Digital Creativindo menetapkan pembagian tanggung jawab operasional untuk memperoleh, mencatat, memvalidasi, dan menyimpan bukti persetujuan dari orang tua atau wali siswa sebelum akun anak diaktifkan untuk kegiatan belajar daring.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 9. Keamanan dan Insiden Data -->
+        <article id="keamanan-insiden" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              09
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">9. Keamanan dan insiden data</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>
+              Kami menerapkan langkah-langkah teknis dan organisasional yang wajar serta proporsional guna menjaga kerahasiaan, keutuhan, dan ketersediaan data pribadi pengguna, termasuk melalui pengaturan otorisasi berbasis peran (RBAC), transmisi aman dengan enkripsi, dan pemeliharaan keamanan sistem. Meskipun demikian, tidak ada metode transmisi internet atau penyimpanan elektronik yang dapat dijamin bebas secara mutlak dari segala risiko siber.
+            </p>
+
+            <!-- 3 x 24 Jam Incident Notification Box -->
+            <div class="rounded-xl border border-rose-500/30 bg-rose-950/20 p-4 sm:p-5">
+              <div class="flex items-start gap-3">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-rose-500/20 text-rose-400">
+                  <ShieldAlert class="h-5 w-5" />
+                </div>
+                <div class="space-y-1.5">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-rose-300">Protokol Penanganan Kegagalan Data Pribadi</h3>
+                    <span class="rounded bg-rose-500/20 px-2 py-0.5 text-[10px] font-bold text-rose-200">SLA 3 × 24 Jam</span>
+                  </div>
+                  <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Apabila terjadi kegagalan pelindungan data pribadi (insiden kebocoran atau akses tidak sah), PT Amerta Digital Creativindo berkomitmen melakukan tindakan mitigasi dan menyampaikan <strong class="text-white">pemberitahuan tertulis paling lambat 3 × 24 jam</strong> kepada subjek data pribadi, pihak sekolah yang terdampak, serta lembaga berwenang sesuai amanat Undang-Undang Pelindungan Data Pribadi.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 10. Hak Pengguna -->
+        <article id="hak-pengguna" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              10
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">10. Hak pengguna (Subjek Data)</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>
+              Sebagai subjek data, Anda (dan orang tua/wali bagi siswa anak) memiliki sejumlah hak yang dijamin oleh peraturan perundang-undangan pelindungan data pribadi:
+            </p>
+
+            <!-- 8 User Rights Grid -->
+            <div class="grid gap-3 sm:grid-cols-2 mt-4">
+              {userRights.map((right) => (
+                <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1.5 transition hover:border-slate-700">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-xs sm:text-sm font-semibold text-white">{right.title}</h3>
+                    <span class="rounded bg-indigo-500/10 px-1.5 py-0.5 text-[10px] font-mono text-indigo-300">
+                      {right.article}
+                    </span>
+                  </div>
+                  <p class="text-xs text-slate-400 leading-relaxed">{right.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <div class="mt-5 rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-2">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-200">Tata Cara Pengajuan Permohonan Hak:</h3>
+              <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Untuk data pembelajaran yang dikelola dalam kegiatan sekolah harian, pengguna atau orang tua/wali dapat menghubungi pihak sekolah terlebih dahulu. Permintaan langsung kepada Amertarva dapat diajukan secara tertulis ke alamat surel <span class="font-mono text-amber-300 placeholder-badge">[email/kontak privasi]</span> dengan menyertakan informasi yang memadai untuk memverifikasi identitas pemohon.
+              </p>
+              <p class="text-xs text-slate-400">
+                Sebagian data tertentu mungkin tetap disimpan jika diperlukan untuk memenuhi kewajiban hukum pengarsipan sekolah atau penyelesaian tuntutan hukum yang sah.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- 11. Kontak dan Pengaduan -->
+        <article id="kontak" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              11
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">11. Kontak dan pengaduan</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>
+              Untuk pertanyaan, permintaan pelaksanaan hak subjek data, atau penyampaian pengaduan terkait kebijakan privasi ini, silakan hubungi saluran resmi kami:
+            </p>
+
+            <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-5 space-y-4 mt-4">
+              <div class="flex items-start gap-3">
+                <Building2 class="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
+                <div>
+                  <span class="text-xs text-slate-400 block">Pengelola Layanan:</span>
+                  <span class="text-sm font-bold text-white">PT Amerta Digital Creativindo</span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <Mail class="h-4 w-4 text-cyan-400 shrink-0 mt-0.5" />
+                <div class="flex-1">
+                  <span class="text-xs text-slate-400 block">Email Privasi & Dukungan:</span>
+                  <span class="font-mono text-xs sm:text-sm font-semibold text-amber-300 placeholder-badge">
+                    [alamat email resmi]
+                  </span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <MapPin class="h-4 w-4 text-rose-400 shrink-0 mt-0.5" />
+                <div class="flex-1">
+                  <span class="text-xs text-slate-400 block">Alamat Korespondensi:</span>
+                  <span class="text-xs sm:text-sm text-amber-300 font-mono placeholder-badge">
+                    [alamat resmi perusahaan]
+                  </span>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <FileCheck class="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                <div class="flex-1">
+                  <span class="text-xs text-slate-400 block">Formulir atau Kanal Pengaduan:</span>
+                  <span class="text-xs sm:text-sm text-amber-300 font-mono placeholder-badge">
+                    [URL/kontak, jika tersedia]
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 12. Perubahan Kebijakan -->
+        <article id="perubahan" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              12
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">12. Perubahan kebijakan</h2>
+          </div>
+
+          <div class="mt-5 space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+            <p>
+              Kami dapat memperbarui kebijakan privasi ini sewaktu-waktu apabila terdapat pengembangan layanan LMS, perubahan alur pemrosesan data, atau penyesuaian regulasi hukum yang berlaku.
+            </p>
+            <p>
+              Versi terbaru akan senantiasa dipublikasikan pada halaman LMS ini beserta tanggal pembaruan resminya. Jika perubahan yang dilakukan bersifat substansial atau berdampak penting pada hak pengguna, kami akan menyampaikan pemberitahuan terlebih dahulu melalui notifikasi pada aplikasi LMS atau korespondensi resmi kepada pihak sekolah.
+            </p>
+          </div>
+        </article>
+
+        <!-- Catatan Pemilik LMS — Checklist Pra-Publikasi -->
+        <article id="catatan-pemilik" class="policy-section scroll-mt-24 rounded-2xl border border-amber-500/40 bg-gradient-to-b from-amber-950/20 to-slate-900/60 p-6 sm:p-8 backdrop-blur-sm no-print">
+          <div class="flex items-center justify-between pb-4 border-b border-amber-500/20">
+            <div class="flex items-center gap-3">
+              <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-500/20 text-amber-400">
+                <ListChecks class="h-5 w-5" />
+              </div>
+              <div>
+                <h2 class="text-lg sm:text-xl font-bold text-white">Catatan Pemilik LMS — Pemeriksaan Pra-Publikasi</h2>
+                <p class="text-xs text-amber-300/80">Panduan verifikasi internal sebelum menerbitkan kebijakan ke publik</p>
+              </div>
+            </div>
+            <button 
+              id="open-checklist-panel-btn"
+              type="button" 
+              class="hidden sm:inline-flex items-center gap-1.5 rounded-lg bg-amber-500/20 border border-amber-500/30 px-3 py-1.5 text-xs font-semibold text-amber-200 hover:bg-amber-500/30 transition"
+            >
+              <span>Buka Checklist Interaktif</span>
+            </button>
+          </div>
+
+          <div class="mt-5 space-y-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+            <p class="text-slate-400">
+              Selesaikan 11 butir pemeriksaan berikut bersama tim pengembang dan penasihat hukum sebelum menghapus catatan ini dan menerbitkan kebijakan secara terbuka:
+            </p>
+
+            <ul class="space-y-2.5 text-xs text-slate-300 pl-2">
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">1</span>
+                <span>Tetapkan peran <strong>pengendali</strong> dan <strong>prosesor</strong> data untuk data siswa/guru antara sekolah dan PT Amerta Digital Creativindo; selaraskan dengan kontrak sekolah.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">2</span>
+                <span>Isi domain resmi, tanggal berlaku, email privasi, alamat korespondensi, dan kanal formulir pengaduan yang benar.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">3</span>
+                <span>Cocokkan daftar data dengan skema database dan fitur aktif. Pastikan apakah LMS menyimpan nomor induk, email, avatar, log IP/perangkat, riwayat akses, atau data lain.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">4</span>
+                <span>Pastikan fitur ujian hanya menyimpan aktivitas browser atau juga mengambil tangkapan layar, kamera, mikrofon, atau data perangkat lain. Jika fitur tersebut aktif, jelaskan tujuan, dasar, cara kerja, penyimpanan, dan aksesnya secara khusus.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">5</span>
+                <span>Verifikasi apakah pemetaan enam CP, pengelompokan hasil asesmen, dan dashboard guru sudah aktif; pastikan siapa yang dapat melihat hasilnya dan bagaimana guru menggunakannya.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">6</span>
+                <span>Verifikasi server dan vendor aktif. Hostinger KVM 4 dan Cloudflare pernah dibahas untuk infrastruktur, tetapi cantumkan hanya layanan yang benar-benar digunakan saat ini. Catat juga lokasi pemrosesan data.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">7</span>
+                <span>Tentukan retensi data akun, nilai/tugas, log, serta cadangan; tentukan proses ekspor dan penghapusan saat kontrak sekolah berakhir.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">8</span>
+                <span>Periksa cookie/analitik, email, pemantauan, serta penyedia pihak ketiga yang benar-benar terhubung.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">9</span>
+                <span>Pastikan proses memperoleh dan menyimpan persetujuan orang tua/wali bagi pemrosesan data anak yang diwajibkan hukum.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">10</span>
+                <span>Cocokkan uraian keamanan dengan kontrol yang sungguh diterapkan, termasuk autentikasi, pembatasan akses, enkripsi, pencatatan, pemulihan cadangan, dan prosedur insiden.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="mt-0.5 h-4 w-4 shrink-0 rounded border border-amber-500/50 bg-amber-500/10 flex items-center justify-center text-[10px] text-amber-400 font-mono">11</span>
+                <span>Minta peninjauan hukum/operasional terhadap versi final dan pastikan alur untuk menangani permintaan hak pengguna benar-benar tersedia.</span>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Rujukan Penyusunan Regulasi -->
+        <article id="rujukan" class="policy-section scroll-mt-24 rounded-2xl border border-slate-800/80 bg-slate-900/40 p-6 sm:p-8 backdrop-blur-sm print-card">
+          <div class="flex items-center gap-3">
+            <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-500/20 text-xs font-bold text-indigo-400">
+              <Scale class="h-4 w-4" />
+            </span>
+            <h2 class="text-lg sm:text-xl font-bold text-white tracking-tight">Rujukan Penyusunan Regulasi</h2>
+          </div>
+
+          <div class="mt-4 space-y-3 text-xs sm:text-sm text-slate-300">
+            <p class="text-slate-400">Kebijakan Privasi ini disusun berpedoman pada instrumen hukum positif Republik Indonesia:</p>
+            <ul class="space-y-2">
+              <li class="flex items-start gap-2 rounded-lg border border-slate-800 bg-slate-950/60 p-3">
+                <span class="h-2 w-2 rounded-full bg-indigo-400 mt-1.5 shrink-0"></span>
+                <span><strong>Undang-Undang Republik Indonesia Nomor 27 Tahun 2022</strong> tentang Pelindungan Data Pribadi (UU PDP).</span>
+              </li>
+              <li class="flex items-start gap-2 rounded-lg border border-slate-800 bg-slate-950/60 p-3">
+                <span class="h-2 w-2 rounded-full bg-emerald-400 mt-1.5 shrink-0"></span>
+                <span><strong>Peraturan Pemerintah Republik Indonesia Nomor 71 Tahun 2019</strong> tentang Penyelenggaraan Sistem dan Transaksi Elektronik (PP PSTE).</span>
+              </li>
+            </ul>
+          </div>
+        </article>
+      </main>
+    </div>
+  </div>
+
+  <!-- Interactive Modals -->
+  <ComplianceChecklistModal />
+  <SearchModal />
+
+  <!-- Global Footer -->
+  <Footer />
 </Layout>
+
+<script>
+  const toggleDraftBtns = [
+    document.getElementById('toggle-draft-mode-btn'),
+    document.getElementById('mobile-toggle-draft-btn')
+  ];
+  const draftLabel = document.getElementById('draft-mode-label');
+  const openChecklistPanelBtn = document.getElementById('open-checklist-panel-btn');
+  const checklistModal = document.getElementById('checklist-modal');
+
+  let isHighlighted = true;
+
+  function setPlaceholderHighlight(highlight: boolean) {
+    const badges = document.querySelectorAll('.placeholder-badge');
+    badges.forEach((el) => {
+      if (highlight) {
+        el.classList.add('ring-2', 'ring-amber-400/80', 'animate-pulse');
+      } else {
+        el.classList.remove('ring-2', 'ring-amber-400/80', 'animate-pulse');
+      }
+    });
+
+    if (draftLabel) {
+      draftLabel.textContent = highlight ? 'Sorot Placeholder [Aktif]' : 'Sorot Placeholder [Draf]';
+    }
+  }
+
+  toggleDraftBtns.forEach(btn => {
+    btn?.addEventListener('click', () => {
+      isHighlighted = !isHighlighted;
+      setPlaceholderHighlight(isHighlighted);
+    });
+  });
+
+  openChecklistPanelBtn?.addEventListener('click', () => {
+    checklistModal?.classList.remove('hidden');
+  });
+
+  setPlaceholderHighlight(true);
+</script>

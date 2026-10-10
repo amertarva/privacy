@@ -1,0 +1,222 @@
+---
+import { Search, X, ArrowRight, CornerDownLeft } from '@lucide/astro';
+
+const searchableItems = [
+  {
+    id: 'tentang',
+    section: 'Pasal 1',
+    title: 'Tentang kebijakan ini & Peran Pengendali vs Prosesor',
+    keywords: 'amerta digital creativindo lms sekolah pengendali prosesor perjanjian layanan'
+  },
+  {
+    id: 'data-diproses',
+    section: 'Pasal 2',
+    title: 'Data yang Dapat Diproses (Tabel Kategori Data)',
+    keywords: 'identitas akun nama email nis nip aktivitas pembelajaran tugas ujian nilai evaluasi capaian pembelajaran cp profil avatar foto ip peramban cookie'
+  },
+  {
+    id: 'sumber-data',
+    section: 'Pasal 3',
+    title: 'Sumber Data (Sekolah, Pengguna, Sistem Otomatis)',
+    keywords: 'sumber data sekolah administrator pendaftaran ujian form dukungan teknis log sistem'
+  },
+  {
+    id: 'tujuan-dasar',
+    section: 'Pasal 4',
+    title: 'Tujuan dan Dasar Pemrosesan Hukum',
+    keywords: 'tujuan dasar pemrosesan kontrak perjanjian kewajiban hukum kepentingan sah persetujuan consent 6 cp analitik pembelajaran'
+  },
+  {
+    id: 'akses-pengungkapan',
+    section: 'Pasal 5',
+    title: 'Akses dan Pengungkapan Data (Pihak Ketiga & Vendor)',
+    keywords: 'guru admin sekolah personel vendor penyedia server hostinger cloudflare database email penegak hukum pengadilan'
+  },
+  {
+    id: 'lokasi-retensi',
+    section: 'Pasal 6',
+    title: 'Lokasi Penyimpanan dan Masa Retensi Data',
+    keywords: 'lokasi server penyimpanan cloudflare hostinger kvm 4 retensi masa simpan akun tugas nilai arsip cadangan backup pemusnahan'
+  },
+  {
+    id: 'cookie',
+    section: 'Pasal 7',
+    title: 'Cookie dan Teknologi Penyimpanan Sesi Serupa',
+    keywords: 'cookie cookies sesi session login autentikasi analitik pelacak tracker'
+  },
+  {
+    id: 'pengguna-anak',
+    section: 'Pasal 8',
+    title: 'Pengguna Anak di Bawah 18 Tahun & Persetujuan Orang Tua',
+    keywords: 'anak di bawah 18 tahun orang tua wali persetujuan consent perlindungan anak siswa minor'
+  },
+  {
+    id: 'keamanan-insiden',
+    section: 'Pasal 9',
+    title: 'Keamanan Data & Prosedur Notifikasi Insiden 3 × 24 Jam',
+    keywords: 'keamanan teknis enkripsi kontrol akses insiden kebocoran kegagalan perlindungan data pemberitahuan 3x24 jam notifikasi uu pdp'
+  },
+  {
+    id: 'hak-pengguna',
+    section: 'Pasal 10',
+    title: 'Hak Pengguna (Akses, Koreksi, Portabilitas, Penghapusan)',
+    keywords: 'hak pengguna subjek data hak akses informasi salinan perbaikan koreksi pemindahan portabilitas penghentian penghapusan erasure keberatan otomatis'
+  },
+  {
+    id: 'kontak',
+    section: 'Pasal 11',
+    title: 'Kontak Resmi dan Saluran Pengaduan Privasi',
+    keywords: 'kontak pengaduan pt amerta digital creativindo email privasi alamat korespondensi formulir support'
+  },
+  {
+    id: 'perubahan',
+    section: 'Pasal 12',
+    title: 'Perubahan dan Pembaruan Kebijakan Privasi',
+    keywords: 'perubahan update revisi tanggal pembaruan notifikasi versi terbaru'
+  },
+  {
+    id: 'catatan-pemilik',
+    section: 'Pemeriksaan',
+    title: 'Catatan Pemilik LMS — Daftar Pemeriksaan Pra-Publikasi',
+    keywords: 'catatan pemilik verifikasi draf rujukan hostinger kvm cloudflare proctoring ujian'
+  }
+];
+---
+
+<div 
+  id="search-modal" 
+  class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm transition-opacity no-print"
+  role="dialog" 
+  aria-modal="true"
+>
+  <div class="fixed inset-0 flex items-start justify-center p-4 sm:pt-20">
+    <div class="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 shadow-2xl">
+      <!-- Search Input Header -->
+      <div class="relative flex items-center border-b border-slate-800 px-4">
+        <Search class="h-5 w-5 text-indigo-400 shrink-0" />
+        <input 
+          id="search-query-input"
+          type="text" 
+          placeholder="Cari kata kunci (cth: Capaian Pembelajaran, Retensi, Anak, Insiden 3x24)..." 
+          class="h-14 w-full bg-transparent px-3 text-sm text-white placeholder-slate-500 focus:outline-none"
+          autocomplete="off"
+        />
+        <button 
+          id="close-search-btn"
+          type="button" 
+          class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-white"
+        >
+          <X class="h-5 w-5" />
+        </button>
+      </div>
+
+      <!-- Quick results list -->
+      <div id="search-results-container" class="max-h-96 overflow-y-auto p-3 space-y-1">
+        {searchableItems.map((item) => (
+          <a 
+            href={`#${item.id}`}
+            class="search-result-item flex items-center justify-between rounded-xl p-3 text-left transition hover:bg-slate-800/80 group"
+            data-keywords={`${item.title.toLowerCase()} ${item.keywords}`}
+          >
+            <div>
+              <span class="inline-block rounded bg-indigo-500/10 px-2 py-0.5 text-[10px] font-semibold text-indigo-300 mb-1">
+                {item.section}
+              </span>
+              <h4 class="text-xs sm:text-sm font-semibold text-slate-200 group-hover:text-white">
+                {item.title}
+              </h4>
+              <p class="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
+                Kata kunci: {item.keywords}
+              </p>
+            </div>
+            <ArrowRight class="h-4 w-4 text-slate-500 group-hover:text-indigo-400 group-hover:translate-x-1 transition shrink-0 ml-3" />
+          </a>
+        ))}
+      </div>
+
+      <div id="no-search-results" class="hidden p-8 text-center text-xs text-slate-400">
+        Tidak ditemukan hasil yang cocok dengan pencarian Anda. Coba kata kunci lain seperti "retensi", "cookie", atau "hak".
+      </div>
+
+      <!-- Search modal footer -->
+      <div class="flex items-center justify-between border-t border-slate-800 bg-slate-950/60 px-4 py-2.5 text-[11px] text-slate-400">
+        <div class="flex items-center gap-1.5">
+          <CornerDownLeft class="h-3 w-3 text-slate-400" />
+          <span>Tekan <kbd class="font-mono rounded bg-slate-800 px-1 py-0.5">Esc</kbd> untuk menutup</span>
+        </div>
+        <span>Pencarian Cepat Dokumen</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const searchModal = document.getElementById('search-modal');
+  const openSearchBtns = [
+    document.getElementById('open-search-btn'),
+    document.getElementById('mobile-search-btn')
+  ];
+  const closeSearchBtn = document.getElementById('close-search-btn');
+  const searchInput = document.getElementById('search-query-input') as HTMLInputElement | null;
+  const resultItems = document.querySelectorAll('.search-result-item');
+  const noResults = document.getElementById('no-search-results');
+
+  function openSearch() {
+    searchModal?.classList.remove('hidden');
+    setTimeout(() => searchInput?.focus(), 50);
+  }
+
+  function closeSearch() {
+    searchModal?.classList.add('hidden');
+    if (searchInput) searchInput.value = '';
+    filterItems('');
+  }
+
+  function filterItems(query: string) {
+    const q = query.trim().toLowerCase();
+    let visibleCount = 0;
+
+    resultItems.forEach((el) => {
+      const keywords = el.getAttribute('data-keywords') || '';
+      if (!q || keywords.includes(q)) {
+        (el as HTMLElement).style.display = 'flex';
+        visibleCount++;
+      } else {
+        (el as HTMLElement).style.display = 'none';
+      }
+    });
+
+    if (noResults) {
+      noResults.classList.toggle('hidden', visibleCount > 0);
+    }
+  }
+
+  openSearchBtns.forEach(btn => btn?.addEventListener('click', openSearch));
+  closeSearchBtn?.addEventListener('click', closeSearch);
+
+  searchInput?.addEventListener('input', (e) => {
+    filterItems((e.target as HTMLInputElement).value);
+  });
+
+  // Close on Escape or click outside
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      searchModal?.classList.contains('hidden') ? openSearch() : closeSearch();
+    }
+    if (e.key === 'Escape' && !searchModal?.classList.contains('hidden')) {
+      closeSearch();
+    }
+  });
+
+  searchModal?.addEventListener('click', (e) => {
+    if (e.target === searchModal) {
+      closeSearch();
+    }
+  });
+
+  // Close when selecting item
+  resultItems.forEach(item => {
+    item.addEventListener('click', closeSearch);
+  });
+</script>
