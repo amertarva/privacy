@@ -52,6 +52,10 @@ Kami dapat menggunakan penyedia layanan yang membantu menjalankan LMS, seperti p
 
 Data juga dapat diungkapkan apabila diwajibkan oleh hukum atau diperlukan untuk menanggapi permintaan resmi yang sah, melindungi keamanan layanan, atau menangani dugaan penyalahgunaan. Kami tidak menggunakan data di luar tujuan yang dijelaskan di sini tanpa dasar pemrosesan dan pemberitahuan yang sesuai.
 
+### Google Workspace Data & API Limited Use Disclosure
+
+Amertarva's use and transfer to any other app of information received from Google APIs will adhere to the [Google API Services User Data Policy](https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements. We do not use Google user data to train, retrain, or improve any generalized Artificial Intelligence (AI) or Machine Learning (ML) models.
+
 ## 6. Lokasi penyimpanan dan masa retensi
 
 Data disimpan pada infrastruktur yang digunakan untuk mengoperasikan LMS. **Lokasi server dan kemungkinan pemrosesan di luar Indonesia harus diisi berdasarkan konfigurasi yang benar-benar digunakan:** `[negara/lokasi server, basis data, penyimpanan berkas, dan layanan pendukung]`.
